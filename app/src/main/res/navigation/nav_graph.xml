@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/cameraFragment">
+
+    <fragment
+        android:id="@+id/FirstFragment"
+        android:name="com.o7solutions.snapsense.UI.FirstFragment"
+        android:label="Pick Image"
+        tools:layout="@layout/fragment_first">
+
+
+    </fragment>
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.o7solutions.snapsense.UI.CameraFragment"
+        android:label="Camera"
+        tools:layout="@layout/fragment_camera" />
+    <fragment
+        android:id="@+id/QRFragment"
+        android:name="com.o7solutions.snapsense.UI.QRFragment"
+        android:label="Scan QR"
+        tools:layout="@layout/fragment_q_r" />
+    <fragment
+        android:id="@+id/chatFragment"
+        android:name="com.o7solutions.snapsense.UI.ChatFragment"
+        android:label="Chat"
+        tools:layout="@layout/fragment_chat" />
+
+</navigation>

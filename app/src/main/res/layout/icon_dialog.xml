@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:alpha="0.9"
+    android:background="@color/black"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Select One"
+        android:textSize="18sp"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:paddingBottom="12dp"/>
+
+    <GridLayout
+        android:id="@+id/gridIcons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="2"
+        android:layout_weight="1"
+        android:alignmentMode="alignMargins"
+        android:rowOrderPreserved="false"
+        android:useDefaultMargins="true">
+
+        <ImageView
+            android:id="@+id/qr"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_qr"
+            android:contentDescription="qr"/>
+
+        <ImageView
+            android:id="@+id/camera"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_camera"
+            android:contentDescription="Icon 2"/>
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/ic_image"
+            android:contentDescription="Icon 3"/>
+
+        <ImageView
+            android:id="@+id/chat"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:visibility="gone"
+            android:src="@drawable/chat"
+            android:contentDescription="Icon 4"/>
+    </GridLayout>
+</LinearLayout>
