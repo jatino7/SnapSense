@@ -127,6 +127,61 @@ class GeminiApi(private val apiKey: String) {
         })
     }
 
+    fun generateImageFromPrompt(prompt: String, callback: (ByteArray?) -> Unit) {
+        // Prepare JSON body
+        val requestBodyJson = JSONObject().apply {
+            put("contents", JSONArray().apply {
+                put(JSONObject().apply {
+                    put("parts", JSONArray().apply {
+                        put(JSONObject().put("text", prompt))
+                    })
+                })
+            })
+        }
+
+        val body = RequestBody.create(
+            "application/json".toMediaTypeOrNull(),
+            requestBodyJson.toString()
+        )
+
+        val request = Request.Builder()
+            .url("$baseUrl/gemini-2.0-flash:generateContent?key=$apiKey") // Use your Gemini endpoint
+            .post(body)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                callback(null)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                response.use {
+                    val responseBody = it.body?.string() ?: ""
+                    try {
+                        val json = JSONObject(responseBody)
+                        val imageBase64 = json.optJSONArray("candidates")
+                            ?.optJSONObject(0)
+                            ?.optJSONObject("content")
+                            ?.optJSONArray("parts")
+                            ?.optJSONObject(0)
+                            ?.optString("image_data") // Gemini returns image data in base64
+
+                        val imageBytes = imageBase64?.let { data ->
+                            android.util.Base64.decode(data, android.util.Base64.DEFAULT)
+                        }
+
+                        callback(imageBytes)
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        callback(null)
+                    }
+                }
+            }
+        })
+    }
+
+
 
     fun analyzeImageFromUrl(imageUrl: String, prompt: String, callback: (String) -> Unit) {
         val requestBodyJson = JSONObject().apply {
@@ -177,4 +232,96 @@ class GeminiApi(private val apiKey: String) {
             }
         })
     }
+
+    fun generateContentFromPrompt(
+        prompt: String,
+        imageFile: File,
+        callback: (String?, ByteArray?) -> Unit
+    ) {
+        val base64Image = encodeImageToBase64(imageFile)
+
+        // Build JSON body with text + input image
+        val requestBodyJson = JSONObject().apply {
+            put("contents", JSONArray().apply {
+                put(JSONObject().apply {
+                    put("parts", JSONArray().apply {
+                        // text input
+                        put(JSONObject().put("text", prompt))
+                        // image input
+                        put(JSONObject().apply {
+                            put("inline_data", JSONObject().apply {
+                                put("mime_type", "image/png") // adjust if jpeg
+                                put("data", base64Image)
+                            })
+                        })
+                    })
+                })
+            })
+        }
+
+        val body = RequestBody.create(
+            "application/json".toMediaTypeOrNull(),
+            requestBodyJson.toString()
+        )
+
+        val request = Request.Builder()
+            .url("$baseUrl/gemini-2.0-flash:generateContent?key=$apiKey")
+            .post(body)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                e.printStackTrace()
+                callback(null, null)
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                response.use {
+                    val responseBody = it.body?.string() ?: ""
+                    try {
+                        val json = JSONObject(responseBody)
+                        val candidates = json.optJSONArray("candidates")
+                        val firstCandidate = candidates?.optJSONObject(0)
+                        val parts = firstCandidate
+                            ?.optJSONObject("content")
+                            ?.optJSONArray("parts")
+
+                        var textResponse: String? = null
+                        var imageResponse: ByteArray? = null
+
+                        parts?.let {
+                            for (i in 0 until it.length()) {
+                                val part = it.optJSONObject(i)
+
+                                // Text output
+                                part?.optString("text")?.let { txt ->
+                                    textResponse = txt
+                                }
+
+                                // Image output
+                                part?.optJSONObject("inline_data")?.let { inline ->
+                                    val data = inline.optString("data")
+                                    if (!data.isNullOrEmpty()) {
+                                        imageResponse = android.util.Base64.decode(
+                                            data,
+                                            android.util.Base64.DEFAULT
+                                        )
+                                    }
+                                }
+                            }
+                        }
+
+                        callback(textResponse, imageResponse)
+
+                    } catch (e: Exception) {
+                        e.printStackTrace()
+                        callback(null, null)
+                    }
+                }
+            }
+        })
+    }
+
+
+
 }

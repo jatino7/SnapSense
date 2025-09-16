@@ -3,9 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".UI.CameraFragment">
+    tools:context=".UI.GenPicFragment">
 
     <ImageView
         android:id="@+id/imageView"
@@ -14,8 +13,6 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         />
-
-
 
     <androidx.camera.view.PreviewView
         android:id="@+id/previewView"
@@ -32,9 +29,9 @@
         android:layout_height="80dp"
         app:cardCornerRadius="40dp"
         android:clickable="true"
+        android:text="Capture and Upload"
         app:strokeColor="@color/primary"
         app:cardBackgroundColor="@color/primary"
-        android:text="Capture and Upload"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -47,39 +44,18 @@
             />
 
     </com.google.android.material.card.MaterialCardView>
-
-
-    <com.google.android.material.card.MaterialCardView
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/loader"
-        android:visibility="gone"
-        android:layout_width="@dimen/_100sdp"
-        android:layout_height="@dimen/_100sdp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        app:lottie_rawRes="@raw/loader"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        >
-        <com.airbnb.lottie.LottieAnimationView
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_100sdp"
-            android:layout_gravity="center"
-            app:lottie_rawRes="@raw/loader"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="true"/>
+        app:lottie_autoPlay="true"
+        android:visibility="gone"
+        app:lottie_loop="true"/>
 
-    </com.google.android.material.card.MaterialCardView>
-
-
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:textColor="@color/white"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/img_1"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_margin="12dp"
-        />
 </androidx.constraintlayout.widget.ConstraintLayout>

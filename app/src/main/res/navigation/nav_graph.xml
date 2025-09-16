@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/cameraFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/FirstFragment"
@@ -28,5 +28,24 @@
         android:name="com.o7solutions.snapsense.UI.ChatFragment"
         android:label="Chat"
         tools:layout="@layout/fragment_chat" />
+    <fragment
+        android:id="@+id/testingFragment"
+        android:name="com.o7solutions.snapsense.UI.TestingFragment"
+        android:label="Voice Prompt"
+        tools:layout="@layout/fragment_testing" />
+    <fragment
+        android:id="@+id/genPicFragment"
+        android:name="com.o7solutions.snapsense.UI.GenPicFragment"
+        android:label="fragment_gen_pic"
+        tools:layout="@layout/fragment_gen_pic" />
+    <fragment
+        android:id="@+id/viewFragment"
+        android:name="com.o7solutions.snapsense.ViewFragment"
+        android:label="Snaplytics"
+        tools:layout="@layout/fragment_view" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.o7solutions.snapsense.UI.HomeFragment"
+        android:label="Snapsense" />
 
 </navigation>

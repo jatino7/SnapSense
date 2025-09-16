@@ -47,6 +47,8 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.gridlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -82,5 +84,11 @@ dependencies {
 
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
 
+    implementation("com.github.chrisbanes:PhotoView:2.3.0")
+    implementation("com.github.MikeOrtiz:TouchImageView:3.6")
 
+
+    implementation("com.intuit.sdp:sdp-android:1.1.1")   // for scalable dp
+    implementation("com.intuit.ssp:ssp-android:1.1.1")   // for scalable sp
 }
+

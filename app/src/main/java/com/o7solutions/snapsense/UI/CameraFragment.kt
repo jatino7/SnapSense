@@ -2,13 +2,25 @@ package com.o7solutions.snapsense.UI
 
 import android.os.Bundle
 import android.Manifest
+import android.app.Dialog
+import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.os.Handler
+import android.os.Looper
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
+import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.camera.core.CameraSelector
@@ -18,15 +30,19 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.o7solutions.snapsense.Cloudinary.UploadImage
 import com.o7solutions.snapsense.R
 import com.o7solutions.snapsense.Utils.AppConstants
+import com.o7solutions.snapsense.Utils.BeautifulMessageDialog
 import com.o7solutions.snapsense.Utils.GeminiApi
 import com.o7solutions.snapsense.databinding.FragmentCameraBinding
 import kotlinx.coroutines.launch
 import java.io.File
+import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -40,11 +56,15 @@ private const val ARG_PARAM2 = "param2"
  * Use the [CameraFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class CameraFragment : Fragment() {
+class CameraFragment : Fragment(), TextToSpeech.OnInitListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
+
+    private lateinit var textToSpeech: TextToSpeech
+
+    lateinit var imageFile: File
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var imageCapture: ImageCapture
     private lateinit var binding: FragmentCameraBinding
@@ -70,6 +90,7 @@ class CameraFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        textToSpeech = TextToSpeech(requireContext(), this)
 
         cameraExecutor = Executors.newSingleThreadExecutor()
 
@@ -140,6 +161,8 @@ class CameraFragment : Fragment() {
                         .into(binding.imageView)
                     analyzeWithGemini(file)
 
+                    imageFile = file
+
 
                 }
             }
@@ -167,13 +190,124 @@ class CameraFragment : Fragment() {
 
     }
 
+    fun showBeautifulDialog(context: Context, title: String, message: String,file: File) {
+        val dialog = Dialog(context)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.custom_message_dialog)
+        dialog.setCancelable(false)
+
+
+        speakOut(message)
+        val dialogIcon = dialog.findViewById<ImageView>(R.id.dialogIcon)
+        val dialogTitle = dialog.findViewById<TextView>(R.id.dialogTitle)
+        val dialogMessage = dialog.findViewById<TextView>(R.id.dialogMessage)
+        val okButton = dialog.findViewById<Button>(R.id.dialogOkBtn)
+
+        Glide.with(requireActivity())
+            .load(imageFile)
+            .into(dialogIcon)
+
+
+        dialogIcon.setOnClickListener {
+
+            showZoomDialog(file)
+        }
+        dialogTitle.text = title
+        dialogMessage.text = ""
+
+        val handler = Handler(Looper.getMainLooper())
+        var index = 0
+        val runnable = object : Runnable {
+            override fun run() {
+                if (index <= message.length) {
+                    dialogMessage.text = message.substring(0, index)
+                    index++
+                    handler.postDelayed(this, 5) // 40ms per character
+                }
+            }
+        }
+        handler.post(runnable)
+
+        okButton.setOnClickListener {
+            binding.btnCapture.isEnabled = true
+            binding.imageView.visibility = View.GONE
+            binding.previewView.visibility = View.VISIBLE
+            binding.imageView.setImageDrawable(null)
+
+            textToSpeech.stop()
+            dialog.dismiss()
+        }
+
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setLayout(
+            (context.resources.displayMetrics.widthPixels * 0.85).toInt(),
+            WindowManager.LayoutParams.WRAP_CONTENT
+        )
+        dialog.show()
+    }
+
+    private fun showZoomDialog(imageFile: File) {
+        // Inflate custom layout
+        val zoomView = layoutInflater.inflate(R.layout.zoom_layout, null)
+        val zoomImage = zoomView.findViewById<ImageView>(R.id.zoomImage)
+
+        // Load image using Glide
+        Glide.with(requireActivity())
+            .load(imageFile)
+            .fitCenter()
+            .into(zoomImage)
+
+        // Create dialog
+        val dialog = Dialog(requireActivity())
+        dialog.setContentView(zoomView)
+        dialog.setCancelable(true) // allow closing by tapping outside
+
+        // Optional: close on click (if you want a close button)
+        val closeButton = zoomView.findViewById<Button>(R.id.close)
+        closeButton?.setOnClickListener { dialog.dismiss() }
+
+        // Make dialog full screen
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
+
+        dialog.show()
+    }
+
+
+
     private fun analyzeWithGemini(file: File) {
         val gemini = GeminiApi(AppConstants.apiKey)
         gemini.analyzeImage(file, AppConstants.prompt) { result ->
             requireActivity().runOnUiThread {
                 Log.d("ApiResult", result)
                 binding.loader.visibility = View.GONE
-                showAlert(formatText(result))
+//                showAlert(formatText(result))
+
+
+                val uri = Uri.fromFile(file)
+
+                val bundle = Bundle()
+                bundle.putParcelable("imageUri", uri)
+                bundle.putString("title", formatText(result))
+
+                findNavController().navigate(R.id.viewFragment,bundle)
+//                showBeautifulDialog(requireActivity(),"Message",formatText(result),file)
+
+//                showBeautifulMessageDialog(
+//                    title = "Important Notice",
+//                    message = result
+//                ) {
+//
+//                    binding.btnCapture.isEnabled = true
+//                    binding.imageView.visibility = View.GONE
+//                    binding.previewView.visibility = View.VISIBLE
+//                    binding.imageView.setImageDrawable(null)
+//
+//                    // Handle OK button click
+////                    finish() // or any other action
+//                }
 
 //                showResultBottomSheet(cleanResponse(result))
             }
@@ -232,6 +366,53 @@ class CameraFragment : Fragment() {
 
         // Create and show the dialog
         val dialog = builder.create()
-        dialog.show()
+//        dialog.show()
     }
+
+    private fun speakOut(text: String) {
+        // faster, robotic feel
+        textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
+    }
+
+    override fun onInit(status: Int) {
+        if (status == TextToSpeech.SUCCESS) {
+            val result = textToSpeech.setLanguage(Locale.getDefault())
+            val voices = textToSpeech.voices
+            textToSpeech.setPitch(0.8f)       // lower pitch
+            textToSpeech.setSpeechRate(1.2f)
+            voices?.forEach { voice ->
+                if (voice.name.contains("male", ignoreCase = true)) {
+                    textToSpeech.voice = voice   // Pick male voice
+                    return@forEach
+                }
+            }
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                Log.e("TTS", "Language not supported")
+            }
+        } else {
+            Log.e("TTS", "Initialization failed")
+        }
+    }
+
+    override fun onDestroy() {
+        if (::textToSpeech.isInitialized) {
+            textToSpeech.stop()
+            textToSpeech.shutdown()
+        }
+        super.onDestroy()
+    }
+
+    // Extension function for easy usage
+
+}
+
+
+private fun CameraFragment.showBeautifulMessageDialog(
+    title: String,
+    message: Any,
+    function: () -> Unit
+) {
+
+    val dialog = BeautifulMessageDialog(requireActivity(), title, message.toString(), function)
+    dialog.show()
 }

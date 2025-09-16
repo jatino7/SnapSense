@@ -42,11 +42,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
+//    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+//        // Inflate the menu; this adds items to the action bar if it is present.
+//        menuInflater.inflate(R.menu.menu_main, menu)
+//        return true
+//    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle action bar item clicks here. The action bar will
@@ -75,6 +75,7 @@ class MainActivity : AppCompatActivity() {
         val camera = dialog.findViewById<ImageView>(R.id.camera)
         val image = dialog.findViewById<ImageView>(R.id.image)
         val chat = dialog.findViewById<ImageView>(R.id.chat)
+        val genPic = dialog.findViewById<ImageView>(R.id.genPic)
 
         qr.setOnClickListener {
 
@@ -118,7 +119,19 @@ class MainActivity : AppCompatActivity() {
                 ) // Pops everything above start destination
                 .build()
 
-            navController.navigate(R.id.chatFragment, null, navOptions)
+            navController.navigate(R.id.testingFragment, null, navOptions)
+            dialog.dismiss()
+        }
+
+        genPic.setOnClickListener {
+            val navOptions = NavOptions.Builder()
+                .setPopUpTo(
+                    navController.graph.startDestinationId,
+                    false
+                ) // Pops everything above start destination
+                .build()
+
+            navController.navigate(R.id.genPicFragment, null, navOptions)
             dialog.dismiss()
         }
 

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="24dp"
+    android:background="@drawable/d_back"
+    android:gravity="center">
+
+    <!-- Optional Icon -->
+    <ImageView
+        android:id="@+id/dialogIcon"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/logo"
+        android:layout_gravity="center"
+        android:contentDescription="Icon"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/dialogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Title"
+        android:textColor="#333"
+        android:visibility="gone"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_gravity="center"/>
+
+    <!-- Scrollable Message -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:id="@+id/dialogMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Your text here"
+            android:textColor="#555"
+            android:textSize="16sp"
+            android:lineSpacingExtra="4dp"
+            android:lineSpacingMultiplier="1.2"/>
+    </ScrollView>
+
+    <!-- Centered OK Button -->
+    <Button
+        android:id="@+id/dialogOkBtn"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:text="OK"
+        android:textColor="#fff"
+        android:backgroundTint="@color/primary"
+        android:layout_gravity="center"/>
+</LinearLayout>

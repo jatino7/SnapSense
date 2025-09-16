@@ -14,6 +14,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.o7solutions.snapsense.R
 import com.o7solutions.snapsense.Utils.AppConstants
@@ -112,7 +113,14 @@ class FirstFragment : Fragment() {
             requireActivity().runOnUiThread {
                 Log.d("ApiResult", result)
                 binding.loader.visibility = View.GONE
-                showResultBottomSheet(formatText(result))
+
+                val uri = Uri.fromFile(file)
+
+                val bundle = Bundle()
+                bundle.putParcelable("imageUri", uri)
+                bundle.putString("title", formatText(result))
+                findNavController().navigate(R.id.viewFragment,bundle)
+//                showResultBottomSheet(formatText(result))
             }
         }
     }

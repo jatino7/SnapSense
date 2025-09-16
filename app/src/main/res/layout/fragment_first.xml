@@ -8,6 +8,17 @@
     tools:context=".UI.FirstFragment">
 
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="40sp"
+        android:textAlignment="center"
+        android:textColor="@color/primary"
+        android:layout_margin="12dp"
+        android:textStyle="bold"
+        android:text="O7 Services"
+        />
 
       <LinearLayout
           android:layout_width="match_parent"
@@ -36,18 +47,25 @@
 
       </LinearLayout>
 
-    <com.airbnb.lottie.LottieAnimationView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/loader"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        app:lottie_rawRes="@raw/loader"
+        android:visibility="gone"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_100sdp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:lottie_autoPlay="true"
-        android:visibility="gone"
-        app:lottie_loop="true"/>
+        >
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_gravity="center"
+            app:lottie_rawRes="@raw/loader"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"/>
+
+    </com.google.android.material.card.MaterialCardView>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

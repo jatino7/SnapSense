@@ -3,9 +3,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".UI.CameraFragment">
+    tools:context=".UI.TestingFragment">
+
+<!--    <LinearLayout-->
+<!--        android:orientation="vertical"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:gravity="center"-->
+<!--        android:padding="16dp">-->
+
+<!--        <TextView-->
+<!--            android:id="@+id/textView"-->
+<!--            android:text="Your speech will appear here"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:textSize="18sp"/>-->
+
+<!--        <Button-->
+<!--            android:id="@+id/startButton"-->
+<!--            android:text="Start Listening"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="20dp"/>-->
+<!--    </LinearLayout>-->
 
     <ImageView
         android:id="@+id/imageView"
@@ -14,8 +35,6 @@
         android:layout_height="match_parent"
         android:visibility="gone"
         />
-
-
 
     <androidx.camera.view.PreviewView
         android:id="@+id/previewView"
@@ -32,9 +51,9 @@
         android:layout_height="80dp"
         app:cardCornerRadius="40dp"
         android:clickable="true"
-        app:strokeColor="@color/primary"
         app:cardBackgroundColor="@color/primary"
         android:text="Capture and Upload"
+        app:strokeColor="@color/primary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -48,7 +67,29 @@
 
     </com.google.android.material.card.MaterialCardView>
 
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/btnMic"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        app:cardCornerRadius="40dp"
+        android:clickable="true"
+        android:visibility="gone"
+        app:strokeColor="@color/primary"
+        app:cardBackgroundColor="@color/primary"
+        android:text="Capture and Upload"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="16dp">
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/mic"
+            android:padding="8dp"
+            />
+
+    </com.google.android.material.card.MaterialCardView>
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/loader"
         android:visibility="gone"
@@ -70,16 +111,19 @@
     </com.google.android.material.card.MaterialCardView>
 
 
-
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:textColor="@color/white"
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/mic"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:lottie_rawRes="@raw/mic"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/img_1"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_margin="12dp"
-        />
+        app:lottie_autoPlay="true"
+        android:visibility="gone"
+
+        app:lottie_loop="true"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

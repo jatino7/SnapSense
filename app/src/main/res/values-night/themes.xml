@@ -4,7 +4,8 @@
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorControlNormal">@color/white</item>
-
+        <item name="android:statusBarColor">@color/primary</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
     <style name="Theme.SnapSense" parent="Base.Theme.SnapSense" />
