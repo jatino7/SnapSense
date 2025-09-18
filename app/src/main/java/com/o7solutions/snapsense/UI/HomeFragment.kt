@@ -49,6 +49,51 @@ class HomeFragment : Fragment() {
 
         binding.apply {
 
+
+            bottomLayout.setOnClickListener {
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(
+                        navController.graph.startDestinationId,
+                        false
+                    ) // Pops everything above start destination
+                    .build()
+
+                navController.navigate(R.id.chatFragment, null, navOptions)
+            }
+
+            messageEt.setOnClickListener {
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(
+                        navController.graph.startDestinationId,
+                        false
+                    ) // Pops everything above start destination
+                    .build()
+
+                navController.navigate(R.id.chatFragment, null, navOptions)
+
+            }
+
+//            messageEtLayout.setOnClickListener {
+//                val navOptions = NavOptions.Builder()
+//                    .setPopUpTo(
+//                        navController.graph.startDestinationId,
+//                        false
+//                    ) // Pops everything above start destination
+//                    .build()
+//
+//                navController.navigate(R.id.chatFragment, null, navOptions)
+//            }
+
+            sendBtn.setOnClickListener {
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(
+                        navController.graph.startDestinationId,
+                        false
+                    ) // Pops everything above start destination
+                    .build()
+
+                navController.navigate(R.id.chatFragment, null, navOptions)
+            }
             qr.setOnClickListener {
 
                 val navOptions = NavOptions.Builder()

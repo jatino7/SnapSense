@@ -33,6 +33,8 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
+            android:windowSoftInputMode="adjustResize"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/Theme.SnapSense">
 
         </activity>

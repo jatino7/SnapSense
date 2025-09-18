@@ -1,60 +1,130 @@
 package com.o7solutions.snapsense.UI
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.o7solutions.snapsense.R
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.ai.client.generativeai.GenerativeModel
+import com.o7solutions.snapsense.Utils.AppConstants
+import com.o7solutions.snapsense.Utils.ChatbotMessageAdapter
+import com.o7solutions.snapsense.Utils.MessageModel
+import com.o7solutions.snapsense.databinding.FragmentChatBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ChatFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ChatFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private val apiKey = AppConstants.apiKey
+    private var _binding: FragmentChatBinding? = null
+    private val binding get() = _binding!!
+
+    private val messageList = mutableListOf<MessageModel>()
+    private lateinit var messageAdapter: ChatbotMessageAdapter
+    private val client = OkHttpClient.Builder()
+        .addInterceptor(HttpLoggingInterceptor().apply { level = HttpLoggingInterceptor.Level.BODY })
+        .build()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chat, container, false)
+    ): View {
+        _binding = FragmentChatBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ChatFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            ChatFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        messageAdapter = ChatbotMessageAdapter(messageList)
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.adapter = messageAdapter
+
+        binding.sendBtn.setOnClickListener {
+            val question = binding.messageEt.text.toString().trim()
+            if (question.isNotEmpty()) {
+
+                binding.loader.visibility = View.VISIBLE
+                binding.messageEt.text?.clear()
+
+                addToChat(question, MessageModel.SENT_BY_ME)
+                addTypingIndicator()
+                callAPI(question)
             }
+        }
+    }
+
+    private fun addToChat(message: String, sentBy: String) {
+        messageList.add(MessageModel(message, sentBy))
+        messageAdapter.notifyItemInserted(messageList.size - 1)
+        binding.recyclerView.smoothScrollToPosition(messageAdapter.itemCount - 1)
+    }
+
+    private fun addTypingIndicator() {
+        messageList.add(MessageModel("Typing...", MessageModel.SENT_BY_BOT))
+        messageAdapter.notifyItemInserted(messageList.size - 1)
+        binding.recyclerView.smoothScrollToPosition(messageAdapter.itemCount - 1)
+    }
+
+    private fun addResponse(response: String?) {
+        if (messageList.isNotEmpty() && messageList.last().message == "Typing...") {
+            val removePosition = messageList.size - 1
+            messageList.removeAt(removePosition)
+            messageAdapter.notifyItemRemoved(removePosition)
+        }
+        response?.takeIf { it.isNotBlank() }?.let {
+            messageList.add(MessageModel(it, MessageModel.SENT_BY_BOT))
+            messageAdapter.notifyItemInserted(messageList.size - 1)
+        }
+        binding.recyclerView.scrollToPosition(messageAdapter.itemCount - 1)
+    }
+
+    private fun removeDoubleAsterisks(input: String?): String {
+        if (input == null) return ""
+        val regex = "\\*\\*+".toRegex()
+        return regex.replace(input, "")
+    }
+
+    private fun callAPI(question: String) {
+        val generativeModel = GenerativeModel(
+            modelName = "gemini-2.0-flash",
+            apiKey = apiKey
+        )
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                // run API call in background
+                val response = withContext(Dispatchers.IO) {
+                    generativeModel.generateContent(question).text
+                }
+
+                val finalOutput = removeDoubleAsterisks(response)
+                Log.d("ChatFragment", response.toString())
+                addResponse(finalOutput ?: "Oops! I couldn’t understand that.")
+
+                binding.loader.visibility = View.GONE
+
+            } catch (e: Exception) {
+                binding.loader.visibility = View.GONE
+
+                addResponse("Error: ${e.message}")
+            }
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

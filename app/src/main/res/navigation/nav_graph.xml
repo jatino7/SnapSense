@@ -26,7 +26,7 @@
     <fragment
         android:id="@+id/chatFragment"
         android:name="com.o7solutions.snapsense.UI.ChatFragment"
-        android:label="Chat"
+        android:label="SenseBot"
         tools:layout="@layout/fragment_chat" />
     <fragment
         android:id="@+id/testingFragment"

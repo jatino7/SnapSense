@@ -90,5 +90,7 @@ dependencies {
 
     implementation("com.intuit.sdp:sdp-android:1.1.1")   // for scalable dp
     implementation("com.intuit.ssp:ssp-android:1.1.1")   // for scalable sp
+
+    implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
 }
 
