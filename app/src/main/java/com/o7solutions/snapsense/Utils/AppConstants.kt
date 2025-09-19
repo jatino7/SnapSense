@@ -23,5 +23,5 @@ Analyze the image and give me detailed information about image. if you detect an
     var PREFS_NAME = "App_prefs"
     var keyCol = "keys"
 
-  
+
 }
