@@ -28,13 +28,10 @@ import androidx.camera.core.ImageCapture
 import androidx.camera.core.ImageCaptureException
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.o7solutions.snapsense.Cloudinary.UploadImage
 import com.o7solutions.snapsense.R
 import com.o7solutions.snapsense.Utils.AppConstants
 import com.o7solutions.snapsense.Utils.AppFunctions
@@ -46,63 +43,52 @@ import java.io.File
 import java.util.Locale
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import androidx.activity.result.contract.ActivityResultContracts
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [CameraFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class CameraFragment : Fragment(), TextToSpeech.OnInitListener {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-
 
     private lateinit var textToSpeech: TextToSpeech
-
-    lateinit var imageFile: File
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var imageCapture: ImageCapture
     private lateinit var binding: FragmentCameraBinding
+    private lateinit var imageFile: File
+
+    // modern permission launcher
+    private val requestPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted: Boolean ->
+            if (isGranted) {
+                startCamera()
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Camera permission is required",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_camera, container, false)
-
-        binding = FragmentCameraBinding.inflate(layoutInflater)
+    ): View {
+        binding = FragmentCameraBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         textToSpeech = TextToSpeech(requireContext(), this)
-
         cameraExecutor = Executors.newSingleThreadExecutor()
 
+        // check permission
         if (allPermissionsGranted()) {
             startCamera()
         } else {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(Manifest.permission.CAMERA),
-                100
-            )
+            requestPermissionLauncher.launch(Manifest.permission.CAMERA)
         }
 
         binding.btnCapture.setOnClickListener {
@@ -114,10 +100,11 @@ class CameraFragment : Fragment(), TextToSpeech.OnInitListener {
         }
     }
 
-
-    private fun allPermissionsGranted() = ContextCompat.checkSelfPermission(
-        requireContext(), Manifest.permission.CAMERA
-    ) == PackageManager.PERMISSION_GRANTED
+    private fun allPermissionsGranted() =
+        ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.CAMERA
+        ) == PackageManager.PERMISSION_GRANTED
 
     private fun startCamera() {
         val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
@@ -129,7 +116,6 @@ class CameraFragment : Fragment(), TextToSpeech.OnInitListener {
             }
 
             imageCapture = ImageCapture.Builder().build()
-
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
             try {
@@ -156,127 +142,15 @@ class CameraFragment : Fragment(), TextToSpeech.OnInitListener {
                 }
 
                 override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
-//                    Log.d("CameraX", "Photo capture succeeded: ${file.absolutePath}")
                     Glide.with(requireActivity())
                         .load(file)
                         .into(binding.imageView)
                     analyzeWithGemini(file)
-
                     imageFile = file
-
-
                 }
             }
         )
     }
-
-    fun analyzeWithGeminiUrl(url: String) {
-        val gemini = GeminiApi(AppFunctions.readApiKey(requireActivity()).toString())
-        lifecycleScope.launch {
-
-
-            gemini.analyzeImageFromUrl(url, AppConstants.prompt) { result ->
-
-                requireActivity().runOnUiThread {
-                    Log.d("ApiResult", result)
-                    binding.loader.visibility = View.GONE
-//                binding.loader.visibility = View.GONE
-//                showAlert(formatText(result))
-
-//                showResultBottomSheet(cleanResponse(result))
-                }
-
-            }
-        }
-
-    }
-
-    fun showBeautifulDialog(context: Context, title: String, message: String,file: File) {
-        val dialog = Dialog(context)
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-        dialog.setContentView(R.layout.custom_message_dialog)
-        dialog.setCancelable(false)
-
-
-        speakOut(message)
-        val dialogIcon = dialog.findViewById<ImageView>(R.id.dialogIcon)
-        val dialogTitle = dialog.findViewById<TextView>(R.id.dialogTitle)
-        val dialogMessage = dialog.findViewById<TextView>(R.id.dialogMessage)
-        val okButton = dialog.findViewById<Button>(R.id.dialogOkBtn)
-
-        Glide.with(requireActivity())
-            .load(imageFile)
-            .into(dialogIcon)
-
-
-        dialogIcon.setOnClickListener {
-
-            showZoomDialog(file)
-        }
-        dialogTitle.text = title
-        dialogMessage.text = ""
-
-        val handler = Handler(Looper.getMainLooper())
-        var index = 0
-        val runnable = object : Runnable {
-            override fun run() {
-                if (index <= message.length) {
-                    dialogMessage.text = message.substring(0, index)
-                    index++
-                    handler.postDelayed(this, 5) // 40ms per character
-                }
-            }
-        }
-        handler.post(runnable)
-
-        okButton.setOnClickListener {
-            binding.btnCapture.isEnabled = true
-            binding.imageView.visibility = View.GONE
-            binding.previewView.visibility = View.VISIBLE
-            binding.imageView.setImageDrawable(null)
-
-            textToSpeech.stop()
-            dialog.dismiss()
-        }
-
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        dialog.window?.setLayout(
-            (context.resources.displayMetrics.widthPixels * 0.85).toInt(),
-            WindowManager.LayoutParams.WRAP_CONTENT
-        )
-        dialog.show()
-    }
-
-    private fun showZoomDialog(imageFile: File) {
-        // Inflate custom layout
-        val zoomView = layoutInflater.inflate(R.layout.zoom_layout, null)
-        val zoomImage = zoomView.findViewById<ImageView>(R.id.zoomImage)
-
-        // Load image using Glide
-        Glide.with(requireActivity())
-            .load(imageFile)
-            .fitCenter()
-            .into(zoomImage)
-
-        // Create dialog
-        val dialog = Dialog(requireActivity())
-        dialog.setContentView(zoomView)
-        dialog.setCancelable(true) // allow closing by tapping outside
-
-        // Optional: close on click (if you want a close button)
-        val closeButton = zoomView.findViewById<Button>(R.id.close)
-        closeButton?.setOnClickListener { dialog.dismiss() }
-
-        // Make dialog full screen
-        dialog.window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.MATCH_PARENT
-        )
-
-        dialog.show()
-    }
-
-
 
     private fun analyzeWithGemini(file: File) {
         val gemini = GeminiApi(AppFunctions.readApiKey(requireActivity()).toString())
@@ -284,94 +158,47 @@ class CameraFragment : Fragment(), TextToSpeech.OnInitListener {
             requireActivity().runOnUiThread {
                 Log.d("ApiResult", result)
                 binding.loader.visibility = View.GONE
-//                showAlert(formatText(result))
-
 
                 val uri = Uri.fromFile(file)
+                val bundle = Bundle().apply {
+                    putParcelable("imageUri", uri)
+                    putString("title", formatText(result))
+                }
 
-                val bundle = Bundle()
-                bundle.putParcelable("imageUri", uri)
-                bundle.putString("title", formatText(result))
-
-                findNavController().navigate(R.id.viewFragment,bundle)
-//                showBeautifulDialog(requireActivity(),"Message",formatText(result),file)
-
-//                showBeautifulMessageDialog(
-//                    title = "Important Notice",
-//                    message = result
-//                ) {
-//
-//                    binding.btnCapture.isEnabled = true
-//                    binding.imageView.visibility = View.GONE
-//                    binding.previewView.visibility = View.VISIBLE
-//                    binding.imageView.setImageDrawable(null)
-//
-//                    // Handle OK button click
-////                    finish() // or any other action
-//                }
-
-//                showResultBottomSheet(cleanResponse(result))
+                findNavController().navigate(R.id.viewFragment, bundle)
             }
         }
     }
 
     fun formatText(input: String): String {
-        return input
-            // Replace double asterisks first
-            .replace(Regex("\\*\\*"), " ")
-            // Then replace single asterisk
+        return input.replace(Regex("\\*\\*"), " ")
             .replace(Regex("\\*"), "•")
     }
 
+    private fun showZoomDialog(imageFile: File) {
+        val zoomView = layoutInflater.inflate(R.layout.zoom_layout, null)
+        val zoomImage = zoomView.findViewById<ImageView>(R.id.zoomImage)
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        cameraExecutor.shutdown()
-    }
+        Glide.with(requireActivity())
+            .load(imageFile)
+            .fitCenter()
+            .into(zoomImage)
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment CameraFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            CameraFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
+        val dialog = Dialog(requireActivity())
+        dialog.setContentView(zoomView)
+        dialog.setCancelable(true)
 
-    private fun showAlert(response: String) {
-        val builder = AlertDialog.Builder(requireActivity())
-        builder.setMessage(response)
-        builder.setCancelable(false)
+        val closeButton = zoomView.findViewById<Button>(R.id.close)
+        closeButton?.setOnClickListener { dialog.dismiss() }
 
-        // Positive button
-        builder.setPositiveButton("Ok") { dialog, which ->
-            binding.btnCapture.isEnabled = true
-            binding.imageView.visibility = View.GONE
-            binding.previewView.visibility = View.VISIBLE
-            binding.imageView.setImageDrawable(null)
-
-            dialog.dismiss()
-        }
-
-
-        // Create and show the dialog
-        val dialog = builder.create()
-//        dialog.show()
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.MATCH_PARENT
+        )
+        dialog.show()
     }
 
     private fun speakOut(text: String) {
-        // faster, robotic feel
         textToSpeech.speak(text, TextToSpeech.QUEUE_FLUSH, null, null)
     }
 
@@ -379,11 +206,11 @@ class CameraFragment : Fragment(), TextToSpeech.OnInitListener {
         if (status == TextToSpeech.SUCCESS) {
             val result = textToSpeech.setLanguage(Locale.getDefault())
             val voices = textToSpeech.voices
-            textToSpeech.setPitch(0.8f)       // lower pitch
+            textToSpeech.setPitch(0.8f)
             textToSpeech.setSpeechRate(1.2f)
             voices?.forEach { voice ->
                 if (voice.name.contains("male", ignoreCase = true)) {
-                    textToSpeech.voice = voice   // Pick male voice
+                    textToSpeech.voice = voice
                     return@forEach
                 }
             }
@@ -395,6 +222,11 @@ class CameraFragment : Fragment(), TextToSpeech.OnInitListener {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        cameraExecutor.shutdown()
+    }
+
     override fun onDestroy() {
         if (::textToSpeech.isInitialized) {
             textToSpeech.stop()
@@ -402,18 +234,13 @@ class CameraFragment : Fragment(), TextToSpeech.OnInitListener {
         }
         super.onDestroy()
     }
-
-    // Extension function for easy usage
-
 }
-
 
 private fun CameraFragment.showBeautifulMessageDialog(
     title: String,
     message: Any,
     function: () -> Unit
 ) {
-
     val dialog = BeautifulMessageDialog(requireActivity(), title, message.toString(), function)
     dialog.show()
 }

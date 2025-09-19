@@ -352,49 +352,49 @@ class GenPicFragment : Fragment() {
         })
     }
 
-    fun claude() {
-        val generator = TextToImageGenerator()
-
-        // Example 1: Generate with OpenAI
-        val openAIResult = generator.generateImage(
-            prompt = "A beautiful landscape with mountains and lakes",
-            provider = "openai",
-            apiKey = "your-openai-api-key-here"
-        )
-
-        if (openAIResult.success) {
-            println("OpenAI Image generated: ${openAIResult.imageUrl}")
-        } else {
-            println("OpenAI Error: ${openAIResult.errorMessage}")
-        }
-
-        // Example 2: Generate with Hugging Face (free)
-        val hfResult = generator.generateImage(
-            prompt = "A cute robot painting a picture",
-            provider = "huggingface",
-            apiKey = AppConstants.huggingFaceAPI
-        )
-
-        if (hfResult.success) {
-            println("Hugging Face Image generated successfully")
-            // Save the image
-            generator.saveImageFromUrl(hfResult.imageUrl!!, "robot_painting.png")
-        } else {
-            println("Hugging Face Error: ${hfResult.errorMessage}")
-        }
-
-        // Example 3: Simple utility function
-        val imageUrl = generateImageSimple("A sunset over the ocean", "your-api-key")
-        println("Simple generation result: $imageUrl")
-
-        // Example 4: Generate and save directly
-        val saved = generateAndSaveImage(
-            "A futuristic city at night",
-            "your-api-key",
-            "futuristic_city.png"
-        )
-        println("Image saved: $saved")
-    }
+//    fun claude() {
+//        val generator = TextToImageGenerator()
+//
+//        // Example 1: Generate with OpenAI
+//        val openAIResult = generator.generateImage(
+//            prompt = "A beautiful landscape with mountains and lakes",
+//            provider = "openai",
+//            apiKey = "your-openai-api-key-here"
+//        )
+//
+//        if (openAIResult.success) {
+//            println("OpenAI Image generated: ${openAIResult.imageUrl}")
+//        } else {
+//            println("OpenAI Error: ${openAIResult.errorMessage}")
+//        }
+//
+//        // Example 2: Generate with Hugging Face (free)
+//        val hfResult = generator.generateImage(
+//            prompt = "A cute robot painting a picture",
+//            provider = "huggingface",
+////            apiKey = AppConstants.huggingFaceAPI
+//        )
+//
+//        if (hfResult.success) {
+//            println("Hugging Face Image generated successfully")
+//            // Save the image
+//            generator.saveImageFromUrl(hfResult.imageUrl!!, "robot_painting.png")
+//        } else {
+//            println("Hugging Face Error: ${hfResult.errorMessage}")
+//        }
+//
+//        // Example 3: Simple utility function
+//        val imageUrl = generateImageSimple("A sunset over the ocean", "your-api-key")
+//        println("Simple generation result: $imageUrl")
+//
+//        // Example 4: Generate and save directly
+//        val saved = generateAndSaveImage(
+//            "A futuristic city at night",
+//            "your-api-key",
+//            "futuristic_city.png"
+//        )
+//        println("Image saved: $saved")
+//    }
 
 
 //    private fun generateImage(prompt: String) {
