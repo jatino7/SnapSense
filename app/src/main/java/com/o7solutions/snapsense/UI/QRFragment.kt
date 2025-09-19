@@ -31,6 +31,7 @@ import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanOptions
 import com.o7solutions.snapsense.R
 import com.o7solutions.snapsense.Utils.AppConstants
+import com.o7solutions.snapsense.Utils.AppFunctions
 import com.o7solutions.snapsense.Utils.GeminiApi
 import com.o7solutions.snapsense.databinding.FragmentQRBinding
 import java.util.concurrent.ExecutorService
@@ -240,7 +241,7 @@ class QRFragment : Fragment() {
 //                                scannedCode = codeValue
                                 binding.qrLottie.visibility = View.GONE
 
-                                val gemini = GeminiApi(AppConstants.apiKey)
+                                val gemini = GeminiApi(AppFunctions.readApiKey(requireActivity()).toString())
 //                                gemini.analyzeText(scannedCode.toString()) { result ->
 //
 //                                    requireActivity().runOnUiThread {

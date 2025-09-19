@@ -221,7 +221,7 @@ class GenPicFragment : Fragment() {
 
 
     private fun analyzeWithGemini(file: File) {
-        val gemini = GeminiApi(AppConstants.apiKey)
+        val gemini = GeminiApi(AppFunctions.readApiKey(requireActivity()).toString())
         gemini.generateContentFromPrompt(AppConstants.prompt, file) { result, img ->
             requireActivity().runOnUiThread {
                 Log.d("ApiResult", result.toString())

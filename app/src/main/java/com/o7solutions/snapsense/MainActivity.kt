@@ -2,20 +2,25 @@ package com.o7solutions.snapsense
 
 import android.app.Dialog
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.view.MenuItem
+import android.view.WindowManager
+import android.widget.ImageView
+import com.google.firebase.firestore.FirebaseFirestore
+
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
-import android.view.WindowManager
-import android.widget.ImageView
-import androidx.core.content.ContextCompat
-import androidx.navigation.NavController
-import androidx.navigation.NavOptions
+import com.o7solutions.snapsense.Utils.AppConstants
+import com.o7solutions.snapsense.Utils.AppFunctions
 import com.o7solutions.snapsense.databinding.ActivityMainBinding
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class MainActivity : AppCompatActivity() {
 
@@ -42,6 +47,11 @@ class MainActivity : AppCompatActivity() {
 
         binding.fab.setOnClickListener { view ->
             showIconDialog()
+        }
+
+        lifecycleScope.launch {
+            val key = getApiKey()
+            AppFunctions.saveApiKey(this@MainActivity, key.toString())
         }
     }
 
@@ -139,6 +149,22 @@ class MainActivity : AppCompatActivity() {
         }
 
         dialog.show()
+    }
+
+    suspend fun getApiKey(): String? {
+
+        val db = FirebaseFirestore.getInstance()
+        return try {
+            val snapshot = db.collection("keys")
+                .document("1234")
+                .get()
+                .await()
+
+            snapshot.getString("KEY_API")  // returns the value or null
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
     }
 
 }

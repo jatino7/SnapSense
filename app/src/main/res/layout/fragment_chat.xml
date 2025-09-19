@@ -23,62 +23,71 @@
         android:layout_alignParentTop="true" />
 
 
-        <!-- Bottom Layout -->
-        <RelativeLayout
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/bottom_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:padding="@dimen/_8sdp"
-            android:background="@color/white"
-            android:elevation="@dimen/_4sdp">
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginBottom="20dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="32dp"
+            app:cardElevation="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:strokeColor="@color/primary"
+            app:strokeWidth="1dp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/message_et_layout"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/send_btn"
-                android:layout_centerInParent="true"
-                android:layout_marginStart="@dimen/_8sdp"
-                android:layout_marginTop="@dimen/_6sdp"
-                android:layout_marginBottom="@dimen/_6sdp"
-                app:boxBackgroundMode="outline"
-                app:boxCornerRadiusTopStart="@dimen/_12sdp"
-                app:boxCornerRadiusTopEnd="@dimen/_12sdp"
-                app:boxCornerRadiusBottomStart="@dimen/_12sdp"
-                app:boxCornerRadiusBottomEnd="@dimen/_12sdp"
-                app:boxStrokeColor="@color/primary"
-                app:boxStrokeWidth="@dimen/_1sdp"
-                app:boxStrokeWidthFocused="@dimen/_2sdp"
-                app:hintTextColor="@color/black">
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                >
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/message_et"
-                    android:layout_width="match_parent"
+                <!-- Message Input Field -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="Write here..."
-                    android:padding="@dimen/_10sdp"
-                    android:textSize="@dimen/_14ssp"
-                    android:textColor="@color/black"
-                    android:textColorHint="@color/black"
-                    android:imeOptions="actionSend"
-                    android:singleLine="true"/>
+                    android:layout_weight="1"
+                    app:boxBackgroundMode="none"
+                    app:hintEnabled="false">
 
-            </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/message_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@null"
+                        android:hint="Write your message here..."
+                        android:imeOptions="actionSend"
+                        android:inputType="textMultiLine|textCapSentences"
+                        android:maxLines="4"
+                        android:minHeight="@dimen/_48sdp"
+                        android:textSize="@dimen/_14ssp" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <ImageButton
-                android:id="@+id/send_btn"
-                android:layout_width="@dimen/_44sdp"
-                android:layout_height="@dimen/_44sdp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerInParent="true"
-                android:scaleType="fitXY"
-                android:padding="@dimen/_4sdp"
-                android:layout_marginStart="@dimen/_10sdp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@drawable/send"
-                app:tint="@color/primary" />
-        </RelativeLayout>
+                <!-- Enhanced Send Button -->
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/send_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:cardBackgroundColor="@color/primary"
+                    app:strokeColor="@color/primary"
+                    app:cardCornerRadius="32dp"
+                    app:tint="@color/white" >
+                    <ImageView
+                        android:layout_width="@dimen/_40ssp"
+                        android:layout_height="match_parent"
+                        android:padding="8dp"
+                        android:layout_margin="@dimen/_8sdp"
+                        android:src="@drawable/send"
+                        />
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
 
 
 

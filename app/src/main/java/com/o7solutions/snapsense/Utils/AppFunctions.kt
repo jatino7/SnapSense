@@ -1,6 +1,7 @@
 package com.o7solutions.snapsense.Utils
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.util.Log
 import android.widget.TextView
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -155,5 +156,14 @@ object AppFunctions {
     }
 
 
+    fun saveApiKey(context: Context, apiKey: String) {
+        val prefs: SharedPreferences = context.getSharedPreferences(AppConstants.PREFS_NAME, Context.MODE_PRIVATE)
+        prefs.edit().putString(AppConstants.KEY_API, apiKey).apply()
+    }
+
+    fun readApiKey(context: Context): String? {
+        val prefs: SharedPreferences = context.getSharedPreferences(AppConstants.PREFS_NAME, Context.MODE_PRIVATE)
+        return prefs.getString(AppConstants.KEY_API, null)
+    }
 
 }

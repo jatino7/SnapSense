@@ -14,14 +14,6 @@
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true">
 
-        <com.google.android.material.card.MaterialCardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp"
-            android:layout_margin="8dp"
-            app:strokeWidth="0dp"
-            app:strokeColor="@color/primary">
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
@@ -32,7 +24,6 @@
                 app:titleCentered="true"
                 app:titleTextColor="@color/primary" />
 
-        </com.google.android.material.card.MaterialCardView>
 
 
     </com.google.android.material.appbar.AppBarLayout>

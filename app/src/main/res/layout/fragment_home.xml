@@ -5,238 +5,348 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
+    android:fitsSystemWindows="true"
     tools:context=".UI.">
 
-    <ImageView
-        android:layout_width="200dp"
-        android:layout_height="100dp"
-        android:src="@drawable/company_logo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="16dp"
-        />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/guide_h_30"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.2"
-        />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/guide_h_70"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.8"
-        />
-    <androidx.gridlayout.widget.GridLayout
-        android:id="@+id/gridLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="16dp"
-        app:columnCount="2"
-        app:layout_constraintTop_toTopOf="@+id/guide_h_30"
-        app:layout_constraintBottom_toBottomOf="@id/guide_h_70"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:rowCount="2">
-
-        <!-- Card 1 -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/camera"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="16dp"
-            app:strokeColor="#FDFD97"
-            app:cardBackgroundColor="#FDFD97"
-            app:cardElevation="8dp"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <ImageView
-                    android:layout_width="@dimen/_48sdp"
-                    android:layout_height="@dimen/_48sdp"
-                    android:src="@drawable/ic_camera"
-                    app:tint="@color/black" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Camera"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_16ssp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
-
-        <!-- Card 2 -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/qr"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="16dp"
-            app:cardBackgroundColor="#D2FDBB"
-            app:cardElevation="8dp"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <ImageView
-                    android:layout_width="@dimen/_48sdp"
-                    android:layout_height="@dimen/_48sdp"
-                    android:src="@drawable/qr_image"
-                    app:tint="@color/primary" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Scan QR"
-                    android:textColor="@color/primary"
-                    android:textSize="@dimen/_16ssp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Card 3 -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/pick_gallery"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="8dp"
-            app:cardBackgroundColor="#D2FDBB"
-            app:layout_columnWeight="1"
-            app:layout_rowWeight="1">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <ImageView
-                    android:layout_width="@dimen/_48sdp"
-                    android:layout_height="@dimen/_48sdp"
-                    android:src="@drawable/pick_file"
-                    app:tint="@color/primary" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Choose Image"
-                    android:textAlignment="center"
-                    android:layout_gravity="center"
-                    android:textColor="@color/primary"
-                    android:textSize="@dimen/_16ssp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <!-- Card 4 -->
-        <androidx.cardview.widget.CardView
-            android:id="@+id/audio_prompt"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="8dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="8dp"
-            app:layout_columnWeight="1"
-            app:cardBackgroundColor="#FDFD97"
-            app:layout_rowWeight="1">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:padding="16dp">
-
-                <ImageView
-                    android:layout_width="@dimen/_48sdp"
-                    android:layout_height="@dimen/_48sdp"
-                    android:src="@drawable/image_generation"
-                    app:tint="@color/black" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="Audio Prompt"
-                    android:textAlignment="center"
-                    android:layout_gravity="center"
-                    android:textColor="#333333"
-                    android:textSize="@dimen/_16ssp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-    </androidx.gridlayout.widget.GridLayout>
-    <com.google.android.material.card.MaterialCardView
+    <!-- Status Bar Gradient Overlay -->
+    <View
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/bottom_layout"
-        app:strokeColor="@color/primary"
-        android:layout_margin="8dp"
-        app:cardBackgroundColor="@android:color/transparent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        >
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Header Section with Enhanced Logo -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/header_card"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="24dp"
+        app:cardElevation="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeWidth="1dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:gravity="center"
+            android:orientation="vertical"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="20dp">
+
+            <ImageView
+                android:layout_width="180dp"
+                android:layout_height="80dp"
+                android:scaleType="centerInside"
+                android:src="@drawable/company_logo" />
+
+
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <!-- Enhanced Grid Layout with Better Spacing -->
+    <androidx.gridlayout.widget.GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:animateLayoutChanges="true"
+        app:columnCount="2"
+        android:paddingBottom="24dp"
+        android:paddingTop="24dp"
+        android:layout_marginEnd="12dp"
+        android:layout_marginStart="12dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottom_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header_card"
+        app:layout_constraintVertical_bias="0.3"
+        app:rowCount="2">
+
+        <!-- Enhanced Camera Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/camera"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="12dp"
+            android:animateLayoutChanges="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="8dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:rippleColor="@color/primary"
+            app:strokeColor="@color/primary"
+            app:strokeWidth="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="@dimen/_64sdp"
+                    android:layout_height="@dimen/_64sdp"
+                    app:cardBackgroundColor="@color/primary"
+                    app:cardCornerRadius="32dp"
+                    app:cardElevation="8dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_32sdp"
+                        android:layout_height="@dimen/_32sdp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/ic_camera"
+                        app:tint="@color/white" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Camera"
+                    android:textSize="@dimen/_16ssp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Enhanced QR Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/qr"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="12dp"
+            android:animateLayoutChanges="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="8dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:rippleColor="@color/primary"
+            app:strokeColor="@color/primary"
+            app:strokeWidth="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="@dimen/_64sdp"
+                    android:layout_height="@dimen/_64sdp"
+                    app:cardBackgroundColor="@color/primary"
+                    app:cardCornerRadius="32dp"
+                    app:cardElevation="8dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_32sdp"
+                        android:layout_height="@dimen/_32sdp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/qr_image"
+                        app:tint="@color/white" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Scan QR"
+                    android:textSize="@dimen/_16ssp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Enhanced Gallery Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/pick_gallery"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="12dp"
+            android:animateLayoutChanges="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="8dp"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:strokeColor="@color/primary"
+            app:rippleColor="@color/primary"
+            app:strokeWidth="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="@dimen/_64sdp"
+                    android:layout_height="@dimen/_64sdp"
+                    app:cardBackgroundColor="@color/primary"
+                    app:cardCornerRadius="32dp"
+                    app:cardElevation="8dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_32sdp"
+                        android:layout_height="@dimen/_32sdp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/pick_file"
+                        app:tint="@color/white" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Gallery"
+                    android:textSize="@dimen/_16ssp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Enhanced Audio Prompt Card -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/audio_prompt"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="12dp"
+            android:animateLayoutChanges="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="8dp"
+            app:rippleColor="@color/primary"
+            app:layout_columnWeight="1"
+            app:layout_rowWeight="1"
+            app:strokeColor="@color/primary"
+            app:strokeWidth="2dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="@dimen/_64sdp"
+                    android:layout_height="@dimen/_64sdp"
+                    app:cardBackgroundColor="@color/primary"
+                    app:cardCornerRadius="32dp"
+                    app:cardElevation="8dp">
+
+                    <ImageView
+                        android:layout_width="@dimen/_32sdp"
+                        android:layout_height="@dimen/_32sdp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/image_generation"
+                        app:tint="@color/white" />
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="Audio"
+                    android:textSize="@dimen/_16ssp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.gridlayout.widget.GridLayout>
+
+    <!-- Enhanced Bottom Input Section -->
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/bottom_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="20dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="32dp"
+        app:cardElevation="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeColor="@color/primary"
+        app:strokeWidth="1dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
             >
 
-
-
-
-            <TextView
-                android:id="@+id/message_et"
-                android:layout_width="wrap_content"
+            <!-- Message Input Field -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="Write here..."
-                android:padding="12dp"
                 android:layout_weight="1"
-                android:textSize="@dimen/_12ssp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/black"
-                />
+                app:boxBackgroundMode="none"
+                app:hintEnabled="false">
 
+                <TextView
+                    android:id="@+id/message_et"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:hint="Write your message here..."
+                    android:imeOptions="actionSend"
+                    android:inputType="textMultiLine|textCapSentences"
+                    android:maxLines="4"
+                    android:minHeight="@dimen/_48sdp"
+                    android:paddingHorizontal="16dp"
+                    android:gravity="start|center"
+                    android:textSize="@dimen/_14ssp" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <ImageButton
-            android:id="@+id/send_btn"
-            android:layout_width="@dimen/_48sdp"
-            android:layout_height="@dimen/_48sdp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/send"
-            android:scaleType="fitXY"
-            android:padding="12dp"
-            app:tint="@color/primary" />
+            <!-- Enhanced Send Button -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/send_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:cardBackgroundColor="@color/primary"
+                app:strokeColor="@color/primary"
+                app:cardCornerRadius="32dp"
+                app:tint="@color/white" >
+                <ImageView
+                    android:layout_width="@dimen/_40ssp"
+                    android:layout_height="match_parent"
+                    android:padding="8dp"
+                    android:layout_margin="@dimen/_8sdp"
+                    android:src="@drawable/send"
+                    />
+
+            </com.google.android.material.card.MaterialCardView>
+
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,6 +28,7 @@ import com.bumptech.glide.Glide
 import com.o7solutions.snapsense.Cloudinary.UploadImage
 import com.o7solutions.snapsense.R
 import com.o7solutions.snapsense.Utils.AppConstants
+import com.o7solutions.snapsense.Utils.AppFunctions
 import com.o7solutions.snapsense.Utils.GeminiApi
 import com.o7solutions.snapsense.databinding.FragmentTestingBinding
 import kotlinx.coroutines.launch
@@ -197,7 +198,7 @@ class TestingFragment : Fragment(), TextToSpeech.OnInitListener {
     }
 
     private fun analyzeWithGemini(file: File, prompt: String) {
-        val gemini = GeminiApi(AppConstants.apiKey)
+        val gemini = GeminiApi(AppFunctions.readApiKey(requireActivity()).toString())
         gemini.analyzeImage(file, prompt) { result ->
             requireActivity().runOnUiThread {
                 Log.d("ApiResult", result)

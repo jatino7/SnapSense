@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "323783363784",
+    "project_id": "callingapp-a7a92",
+    "storage_bucket": "callingapp-a7a92.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:323783363784:android:45361bb56e6ede6a2529fd",
+        "android_client_info": {
+          "package_name": "com.o7solutions.callingapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUwvh_eQjuRNRvViYWxZyoVdgRXE6WPIQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:323783363784:android:1756914d0bd78e7e2529fd",
+        "android_client_info": {
+          "package_name": "com.o7solutions.snapsense"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUwvh_eQjuRNRvViYWxZyoVdgRXE6WPIQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

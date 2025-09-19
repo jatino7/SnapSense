@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -92,5 +93,12 @@ dependencies {
     implementation("com.intuit.ssp:ssp-android:1.1.1")   // for scalable sp
 
     implementation("com.google.ai.client.generativeai:generativeai:0.9.0")
+
+    //    firebase
+    implementation(platform("com.google.firebase:firebase-bom:34.3.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-firestore-ktx:25.1.0")
+
+
 }
 

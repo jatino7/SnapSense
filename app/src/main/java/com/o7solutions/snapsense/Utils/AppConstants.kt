@@ -19,13 +19,9 @@ Analyze the image and give me detailed information about image. if you detect an
 """.trimIndent()
 
 
-    val apiKey = "AIzaSyBMrpXtMZzjDlZ1LaiA7vVgmEETMh9uwJU"
+    var KEY_API = "apiKey"
+    var PREFS_NAME = "App_prefs"
+    var keyCol = "keys"
 
-    val deepSeekApiKey = "sk-906548689d814636bc2ba605c1b9a5cd"
-
-    val cfAccountId = "3d36800afd62d64475837b928579df1d"
-    val cfToken = "JsOh7dl56bD4do0pDVLQvMcNYe9K2WlS4-0WYPjq"
-
-
-    val huggingFaceAPI = "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"
+  
 }

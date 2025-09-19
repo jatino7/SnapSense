@@ -18,6 +18,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.o7solutions.snapsense.R
 import com.o7solutions.snapsense.Utils.AppConstants
+import com.o7solutions.snapsense.Utils.AppFunctions
 import com.o7solutions.snapsense.Utils.GeminiApi
 import com.o7solutions.snapsense.databinding.FragmentFirstBinding
 import java.io.File
@@ -108,7 +109,7 @@ class FirstFragment : Fragment() {
     }
 
     private fun analyzeWithGemini(file: File) {
-        val gemini = GeminiApi(AppConstants.apiKey)
+        val gemini = GeminiApi(AppFunctions.readApiKey(requireActivity()).toString())
         gemini.analyzeImage(file, AppConstants.prompt) { result ->
             requireActivity().runOnUiThread {
                 Log.d("ApiResult", result)
