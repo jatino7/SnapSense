@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".UI.TestingFragment">
 
@@ -136,5 +137,64 @@
         android:visibility="gone"
 
         app:lottie_loop="true"/>
+
+
+    <LinearLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:background="@android:color/transparent"
+        >
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            app:cardCornerRadius="8dp"
+            app:strokeColor="@color/white"
+            app:cardBackgroundColor="@color/white"
+            >
+            <TextView
+                android:id="@+id/ques_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:lineHeight="1sp"
+                android:textStyle="bold"
+                android:layout_margin="8dp"
+                />
+        </com.google.android.material.card.MaterialCardView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="12dp"
+            android:orientation="horizontal"
+            >
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/try_again_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Try Again"
+                app:cornerRadius="8dp"
+                android:layout_marginEnd="6dp"
+                android:layout_weight="1"
+                />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/continue_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                app:cornerRadius="8dp"
+                android:text="Continue"
+                android:layout_weight="1"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

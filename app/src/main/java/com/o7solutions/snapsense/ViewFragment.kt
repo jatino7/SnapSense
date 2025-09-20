@@ -49,6 +49,7 @@ class ViewFragment : Fragment() {
 
         val uri = arguments?.getParcelable<Uri>("imageUri")
         val title = arguments?.getString("title")
+        val ques = arguments?.getString("ques")
 
         if (uri != null) {
             binding.imageFile.setImageURI(uri)

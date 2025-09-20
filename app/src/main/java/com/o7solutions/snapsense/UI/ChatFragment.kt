@@ -69,7 +69,7 @@ class ChatFragment : Fragment() {
             val imm =
                 requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
-        }, 200)
+        }, 0)
 
         binding.sendBtn.setOnClickListener {
             val question = binding.messageEt.text.toString().trim()

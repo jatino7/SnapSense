@@ -22,6 +22,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.VIEW_MODEL_STORE_OWNER_KEY
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -100,11 +101,20 @@ class TestingFragment : Fragment(), TextToSpeech.OnInitListener {
             }
 
             override fun onResults(result: Bundle?) {
-                binding.loader.visibility = View.VISIBLE
+
+                binding.bottomLayout.visibility = View.VISIBLE
                 binding.mic.visibility = View.GONE
-                val matches = result?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
-                Toast.makeText(requireActivity(), "Ques:${matches?.get(0)}", Toast.LENGTH_SHORT).show()
-                analyzeWithGemini(fileToUpload, matches?.get(0) ?: AppConstants.prompt)
+
+                val matches = result?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.get(0)
+                binding.quesLayout.text = "Ques: ${matches.toString()}"
+
+                binding.tryAgainBtn.setOnClickListener {
+                    tryAgain()
+                }
+
+                binding.continueBtn.setOnClickListener {
+                    continueTask(matches.toString())
+                }
             }
 
             override fun onError(error: Int) {
@@ -126,7 +136,6 @@ class TestingFragment : Fragment(), TextToSpeech.OnInitListener {
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
 
-    // ✅ Permission helpers
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED
     }
@@ -177,6 +186,19 @@ class TestingFragment : Fragment(), TextToSpeech.OnInitListener {
         }, ContextCompat.getMainExecutor(requireContext()))
     }
 
+
+    fun tryAgain() {
+
+        binding.bottomLayout.visibility = View.GONE
+        binding.btnMic.visibility = View.VISIBLE
+
+    }
+
+
+    fun continueTask(ques: String) {
+        binding.loader.visibility = View.VISIBLE
+        analyzeWithGemini(fileToUpload, ques ?: AppConstants.prompt)
+    }
     private fun captureAndUpload() {
         val file = File(requireContext().externalCacheDir, "${System.currentTimeMillis()}.jpg")
         val outputOptions = ImageCapture.OutputFileOptions.Builder(file).build()

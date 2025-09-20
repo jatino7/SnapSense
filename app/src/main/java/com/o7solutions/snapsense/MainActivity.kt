@@ -9,6 +9,9 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
@@ -35,6 +38,14 @@ class MainActivity : AppCompatActivity() {
 
 
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.rootView)) { view, insets ->
+            val navBarInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.setPadding(0, 0, 0, navBarInsets.bottom) // Add bottom padding
+            insets
+        }
+
 
         setSupportActionBar(binding.toolbar)
         binding.toolbar.navigationIcon?.setTint(

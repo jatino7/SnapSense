@@ -1,0 +1,28 @@
+New Key Store
+
+Key store path:
+\Users\jatin\SnapSense\app\my-release-key.jks
+
+Password: ********
+Confirm: ********
+
+Key
+
+Alias: key0
+Password: ********
+Confirm: ********
+Validity (years): 25
+
+Certificate
+
+First and Last Name: Jatin
+
+Organizational Unit: IT
+
+Organization: O7 Solutions
+
+City or Locality: Jalandhar
+
+State or Province: Punjab
+
+Country Code (XX): IN
