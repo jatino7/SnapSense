@@ -315,7 +315,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:hint="Write your message here..."
+                    android:hint="Enter your queries"
                     android:imeOptions="actionSend"
                     android:inputType="textMultiLine|textCapSentences"
                     android:maxLines="4"

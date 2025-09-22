@@ -8,12 +8,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/left_chat_view"
-        app:strokeColor="#D3D3D3"
+        app:strokeColor="@color/white"
+        android:layout_marginEnd="80dp"
         android:orientation="vertical"
+        android:layout_marginStart="4dp"
+        android:layout_marginBottom="4dp"
         android:layout_alignParentStart="true"
         android:padding="8dp"
-        android:layout_marginEnd="80dp"
-        android:backgroundTint="#D3D3D3"
+        android:backgroundTint="@color/white"
         >
 
         <TextView
@@ -31,6 +33,9 @@
         android:id="@+id/right_chat_view"
         android:orientation="vertical"
         android:padding="8dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
+
         android:gravity="end"
         app:strokeColor="@color/primary"
         android:layout_alignParentEnd="true"
