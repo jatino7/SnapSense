@@ -1,5 +1,7 @@
 package com.o7solutions.snapsense.Utils
 
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +13,11 @@ class ChatbotMessageAdapter(
 ) : RecyclerView.Adapter<ChatbotMessageAdapter.MessageViewHolder>() {
 
 
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
-        val binding = ChatbotChatItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding =
+            ChatbotChatItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return MessageViewHolder(binding)
     }
-
 
 
     override fun onBindViewHolder(holder: MessageViewHolder, position: Int) {
@@ -26,7 +26,8 @@ class ChatbotMessageAdapter(
 
     override fun getItemCount(): Int = messageList.size
 
-    inner class MessageViewHolder(private val binding: ChatbotChatItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MessageViewHolder(private val binding: ChatbotChatItemBinding) :
+        RecyclerView.ViewHolder(binding.root) {
 
         fun bind(message: MessageModel) {
             if (message.sentBy == MessageModel.SENT_BY_ME) {
@@ -36,7 +37,22 @@ class ChatbotMessageAdapter(
             } else {
                 binding.leftChatView.visibility = View.VISIBLE
                 binding.rightChatView.visibility = View.GONE
-                binding.leftChatTextView.text = message.message
+                val handler = Handler(Looper.getMainLooper())
+                var index = 0
+                val runnable = object : Runnable {
+                    override fun run() {
+                        if (index <= message.message.length) {
+                            binding.leftChatTextView.text = message.message.substring(0, index)
+                            index++
+                            (itemView.parent as? RecyclerView)?.post {
+                                (itemView.parent as RecyclerView).smoothScrollToPosition(adapterPosition)
+                            }
+                            handler.postDelayed(this, 5) // 40ms per character
+                        }
+                    }
+                }
+                handler.post(runnable)
+//                binding.leftChatTextView.text = message.message
             }
         }
     }

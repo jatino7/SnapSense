@@ -12,17 +12,17 @@
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="match_parent" />-->
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        android:textSize="40sp"
-        android:textAlignment="center"
-        android:textColor="@color/primary"
-        android:layout_margin="12dp"
-        android:textStyle="bold"
-        android:text="O7 Services"
-        />
+<!--    <TextView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        android:textSize="40sp"-->
+<!--        android:textAlignment="center"-->
+<!--        android:textColor="@color/primary"-->
+<!--        android:layout_margin="12dp"-->
+<!--        android:textStyle="bold"-->
+<!--        android:text="O7 Services"-->
+<!--        />-->
 
     <View
         android:layout_width="200dp"

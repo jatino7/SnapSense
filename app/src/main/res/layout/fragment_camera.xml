@@ -83,15 +83,15 @@
 
 
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:textColor="@color/white"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:src="@drawable/img_1"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_margin="12dp"
-        />
+<!--    <ImageView-->
+<!--        android:layout_width="100dp"-->
+<!--        android:layout_height="100dp"-->
+<!--        android:textColor="@color/white"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        android:src="@drawable/img_1"-->
+<!--        android:textSize="20sp"-->
+<!--        android:textStyle="bold"-->
+<!--        android:layout_margin="12dp"-->
+<!--        />-->
 </androidx.constraintlayout.widget.ConstraintLayout>

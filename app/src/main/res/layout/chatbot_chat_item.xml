@@ -1,55 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:padding="8dp">
+
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/left_chat_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/left_chat_view"
-        app:strokeColor="@color/white"
-        android:layout_marginEnd="80dp"
-        android:orientation="vertical"
-        android:layout_marginStart="4dp"
-        android:layout_marginBottom="4dp"
         android:layout_alignParentStart="true"
-        android:padding="8dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="4dp"
         android:backgroundTint="@color/white"
-        >
+        android:orientation="vertical"
+        android:padding="8dp"
+        app:strokeColor="@color/white">
 
         <TextView
+            android:id="@+id/left_chat_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/left_chat_text_view"
-            android:textColor="@color/black"
             android:layout_margin="8dp"
-            android:textSize="18sp"
-            />
+            android:textColor="@color/black"
+            android:textSize="18sp" />
     </com.google.android.material.card.MaterialCardView>
+
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/right_chat_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/right_chat_view"
-        android:orientation="vertical"
-        android:padding="8dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginBottom="4dp"
-
-        android:gravity="end"
-        app:strokeColor="@color/primary"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="80dp"
-        android:backgroundTint="@color/primary">
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
+        android:backgroundTint="@color/primary"
+        android:gravity="end"
+        android:orientation="vertical"
+        android:padding="8dp"
+        app:strokeColor="@color/primary">
 
         <TextView
+            android:id="@+id/right_chat_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/right_chat_text_view"
-            android:textColor="@color/white"
-            android:textSize="18sp"
             android:layout_margin="8dp"
-            />
+            android:textColor="@color/white"
+            android:textSize="18sp" />
     </com.google.android.material.card.MaterialCardView>
 
 </RelativeLayout>

@@ -3,4 +3,9 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="primary">@color/black</color>
+    <color name="jordy_blue">#91c4f2</color>
+    <color name="beige">#e2e8ce</color>
+    <color name="mimi_pink">#f9cff2</color>
+    <color name="minidaro">#fffd98</color>
+    <color name="coloro">#07beb8</color>
 </resources>

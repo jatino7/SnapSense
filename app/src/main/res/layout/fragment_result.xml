@@ -5,8 +5,6 @@
     android:layout_height="match_parent"
     android:background="#E0DED9"
     android:fitsSystemWindows="true"
-
-
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".UI.ResultFragment">
 
@@ -191,30 +189,50 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
-    <ImageView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/btn_scroll_down"
-        android:layout_width="@dimen/_48sdp"
-        android:layout_height="@dimen/_48sdp"
-        android:src="@drawable/scroll_down"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
         app:layout_constraintBottom_toTopOf="@id/bottom_layout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="4dp"
+        app:cardBackgroundColor="@color/black"
+        app:strokeColor="@color/black"
         android:visibility="gone"
-        android:backgroundTint="@android:color/transparent"
-         />
+        app:cardCornerRadius="@dimen/_20sdp"
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/scroll_down"
+            android:layout_marginBottom="4dp"
+            android:backgroundTint="@android:color/transparent"
+            />
+    </com.google.android.material.card.MaterialCardView>
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/btn_scroll_up"
+        android:layout_width="@dimen/_40sdp"
+        android:layout_height="@dimen/_40sdp"
+        app:cardCornerRadius="@dimen/_20sdp"
+        app:cardBackgroundColor="@color/black"
+        app:strokeColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@id/bottom_layout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        >
+
 
     <ImageView
-        android:id="@+id/btn_scroll_up"
-        android:layout_width="@dimen/_48sdp"
-        android:layout_height="@dimen/_48sdp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:src="@drawable/scroll_up"
-        app:layout_constraintBottom_toTopOf="@id/bottom_layout"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="4dp"
-        android:visibility="gone"
         android:backgroundTint="@android:color/transparent"
         />
+
+    </com.google.android.material.card.MaterialCardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

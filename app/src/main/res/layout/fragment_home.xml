@@ -13,51 +13,50 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent" />
 
-<!--    &lt;!&ndash; Header Section with Enhanced Logo &ndash;&gt;-->
-<!--    <com.google.android.material.card.MaterialCardView-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginHorizontal="20dp"-->
-<!--        app:cardBackgroundColor="@color/white"-->
-<!--        app:cardCornerRadius="24dp"-->
-<!--        app:cardElevation="12dp"-->
-<!--        -->
-<!--        app:strokeWidth="1dp">-->
+    <!--    &lt;!&ndash; Header Section with Enhanced Logo &ndash;&gt;-->
+    <!--    <com.google.android.material.card.MaterialCardView-->
+    <!--        android:layout_width="0dp"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_marginHorizontal="20dp"-->
+    <!--        app:cardBackgroundColor="@color/white"-->
+    <!--        app:cardCornerRadius="24dp"-->
+    <!--        app:cardElevation="12dp"-->
+    <!--        -->
+    <!--        app:strokeWidth="1dp">-->
 
-        <LinearLayout
-            android:id="@+id/header_card"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:orientation="vertical"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:paddingHorizontal="24dp"
-            android:paddingVertical="20dp">
+    <LinearLayout
+        android:id="@+id/header_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:layout_width="180dp"
-                android:layout_height="80dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/company_logo" />
+        <ImageView
+            android:layout_width="180dp"
+            android:layout_height="80dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/company_logo" />
 
 
-
-        </LinearLayout>
-<!--    </com.google.android.material.card.MaterialCardView>-->
+    </LinearLayout>
+    <!--    </com.google.android.material.card.MaterialCardView>-->
 
     <!-- Enhanced Grid Layout with Better Spacing -->
     <androidx.gridlayout.widget.GridLayout
         android:id="@+id/gridLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:animateLayoutChanges="true"
-        app:columnCount="2"
-        android:paddingBottom="24dp"
-        android:paddingTop="24dp"
-        android:layout_marginEnd="12dp"
         android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:animateLayoutChanges="true"
+        android:paddingTop="24dp"
+        android:paddingBottom="24dp"
+        app:columnCount="2"
         app:layout_constraintBottom_toTopOf="@+id/bottom_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,17 +70,18 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="12dp"
+            android:alpha="0.8"
             android:animateLayoutChanges="true"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/mimi_pink"
             app:cardCornerRadius="28dp"
             app:cardElevation="8dp"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1"
-            app:rippleColor="@color/primary"
-            app:strokeColor="@color/primary"
+            app:rippleColor="@color/mimi_pink"
+            app:strokeColor="@color/mimi_pink"
             app:strokeWidth="2dp">
 
             <LinearLayout
@@ -96,7 +96,8 @@
                     android:layout_height="@dimen/_64sdp"
                     app:cardBackgroundColor="@color/primary"
                     app:cardCornerRadius="32dp"
-                    app:cardElevation="8dp">
+                    app:cardElevation="8dp"
+                    app:strokeColor="@color/black">
 
                     <ImageView
                         android:layout_width="@dimen/_32sdp"
@@ -111,6 +112,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="Camera"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/_16ssp"
                     android:textStyle="bold" />
 
@@ -124,17 +126,18 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="12dp"
+            android:alpha="0.8"
             android:animateLayoutChanges="true"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/coloro"
             app:cardCornerRadius="28dp"
             app:cardElevation="8dp"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1"
-            app:rippleColor="@color/primary"
-            app:strokeColor="@color/primary"
+            app:rippleColor="@color/coloro"
+            app:strokeColor="@color/coloro"
             app:strokeWidth="2dp">
 
             <LinearLayout
@@ -149,7 +152,8 @@
                     android:layout_height="@dimen/_64sdp"
                     app:cardBackgroundColor="@color/primary"
                     app:cardCornerRadius="32dp"
-                    app:cardElevation="8dp">
+                    app:cardElevation="8dp"
+                    app:strokeColor="@color/black">
 
                     <ImageView
                         android:layout_width="@dimen/_32sdp"
@@ -164,6 +168,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="Scan QR"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/_16ssp"
                     android:textStyle="bold" />
 
@@ -177,17 +182,18 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="12dp"
+            android:alpha="0.8"
             android:animateLayoutChanges="true"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/minidaro"
             app:cardCornerRadius="28dp"
             app:cardElevation="8dp"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1"
-            app:strokeColor="@color/primary"
-            app:rippleColor="@color/primary"
+            app:rippleColor="@color/minidaro"
+            app:strokeColor="@color/minidaro"
             app:strokeWidth="2dp">
 
             <LinearLayout
@@ -202,7 +208,8 @@
                     android:layout_height="@dimen/_64sdp"
                     app:cardBackgroundColor="@color/primary"
                     app:cardCornerRadius="32dp"
-                    app:cardElevation="8dp">
+                    app:cardElevation="8dp"
+                    app:strokeColor="@color/black">
 
                     <ImageView
                         android:layout_width="@dimen/_32sdp"
@@ -217,6 +224,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="Gallery"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/_16ssp"
                     android:textStyle="bold" />
 
@@ -230,17 +238,18 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_margin="12dp"
+            android:alpha="0.8"
             android:animateLayoutChanges="true"
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/jordy_blue"
             app:cardCornerRadius="28dp"
             app:cardElevation="8dp"
-            app:rippleColor="@color/primary"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1"
-            app:strokeColor="@color/primary"
+            app:rippleColor="@color/jordy_blue"
+            app:strokeColor="@color/jordy_blue"
             app:strokeWidth="2dp">
 
             <LinearLayout
@@ -255,7 +264,8 @@
                     android:layout_height="@dimen/_64sdp"
                     app:cardBackgroundColor="@color/primary"
                     app:cardCornerRadius="32dp"
-                    app:cardElevation="8dp">
+                    app:cardElevation="8dp"
+                    app:strokeColor="@color/black">
 
                     <ImageView
                         android:layout_width="@dimen/_32sdp"
@@ -270,6 +280,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:text="Audio"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/_16ssp"
                     android:textStyle="bold" />
 
@@ -299,8 +310,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
 
             <!-- Message Input Field -->
             <com.google.android.material.textfield.TextInputLayout
@@ -315,13 +325,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:hint="Enter your queries"
+                    android:gravity="start|center"
+                    android:hint="Enter your query"
                     android:imeOptions="actionSend"
                     android:inputType="textMultiLine|textCapSentences"
                     android:maxLines="4"
                     android:minHeight="@dimen/_48sdp"
                     android:paddingHorizontal="16dp"
-                    android:gravity="start|center"
                     android:textSize="@dimen/_14ssp" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -332,16 +342,16 @@
                 android:layout_height="@dimen/_40sdp"
                 android:layout_margin="12dp"
                 app:cardBackgroundColor="@color/primary"
-                app:strokeColor="@color/primary"
                 app:cardCornerRadius="32dp"
-                app:tint="@color/white" >
+                app:strokeColor="@color/primary"
+                app:tint="@color/white">
+
                 <ImageView
                     android:layout_width="@dimen/_40ssp"
                     android:layout_height="match_parent"
-                    android:layout_margin="@dimen/_8sdp"
-                    android:src="@drawable/send"
                     android:layout_gravity="center"
-                    />
+                    android:layout_margin="@dimen/_8sdp"
+                    android:src="@drawable/send" />
 
             </com.google.android.material.card.MaterialCardView>
 
