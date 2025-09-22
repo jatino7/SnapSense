@@ -15,7 +15,9 @@ Focus on delivering detailed, insightful, and actionable information for both th
 """.trimIndent()
 
     val prompt = """
-Analyze the image and give me detailed information about image. if you detect any product in image than i want you to give me proper information of the product like company, model details
+Analyze the image and give me detailed information about image.Detect the product in image than i want you to give me proper information of the product like company,
+ model details. You have to give company details anyway. if not possible suggest me other similar companies
+ 
 """.trimIndent()
 
 

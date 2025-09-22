@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
 
 
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+//        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.rootView)) { view, insets ->
             val navBarInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())

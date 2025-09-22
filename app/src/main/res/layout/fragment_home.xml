@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:fitsSystemWindows="true"
     tools:context=".UI.">
 
     <!-- Status Bar Gradient Overlay -->
@@ -14,25 +13,26 @@
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Header Section with Enhanced Logo -->
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/header_card"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:strokeWidth="1dp">
+<!--    &lt;!&ndash; Header Section with Enhanced Logo &ndash;&gt;-->
+<!--    <com.google.android.material.card.MaterialCardView-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginHorizontal="20dp"-->
+<!--        app:cardBackgroundColor="@color/white"-->
+<!--        app:cardCornerRadius="24dp"-->
+<!--        app:cardElevation="12dp"-->
+<!--        -->
+<!--        app:strokeWidth="1dp">-->
 
         <LinearLayout
+            android:id="@+id/header_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             android:paddingHorizontal="24dp"
             android:paddingVertical="20dp">
 
@@ -45,7 +45,7 @@
 
 
         </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+<!--    </com.google.android.material.card.MaterialCardView>-->
 
     <!-- Enhanced Grid Layout with Better Spacing -->
     <androidx.gridlayout.widget.GridLayout
@@ -328,8 +328,9 @@
             <!-- Enhanced Send Button -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/send_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_margin="12dp"
                 app:cardBackgroundColor="@color/primary"
                 app:strokeColor="@color/primary"
                 app:cardCornerRadius="32dp"
@@ -337,9 +338,9 @@
                 <ImageView
                     android:layout_width="@dimen/_40ssp"
                     android:layout_height="match_parent"
-                    android:padding="8dp"
                     android:layout_margin="@dimen/_8sdp"
                     android:src="@drawable/send"
+                    android:layout_gravity="center"
                     />
 
             </com.google.android.material.card.MaterialCardView>

@@ -120,7 +120,8 @@ class FirstFragment : Fragment() {
                 val bundle = Bundle()
                 bundle.putParcelable("imageUri", uri)
                 bundle.putString("title", formatText(result))
-                findNavController().navigate(R.id.viewFragment,bundle)
+                bundle.putString("ques","Image insights")
+                findNavController().navigate(R.id.resultFragment,bundle)
 //                showResultBottomSheet(formatText(result))
             }
         }

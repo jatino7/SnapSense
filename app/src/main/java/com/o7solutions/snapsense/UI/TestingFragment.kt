@@ -186,7 +186,6 @@ class TestingFragment : Fragment(), TextToSpeech.OnInitListener {
         }, ContextCompat.getMainExecutor(requireContext()))
     }
 
-
     fun tryAgain() {
 
         binding.bottomLayout.visibility = View.GONE
@@ -229,8 +228,10 @@ class TestingFragment : Fragment(), TextToSpeech.OnInitListener {
                 val bundle = Bundle().apply {
                     putParcelable("imageUri", uri)
                     putString("title", formatText(result))
+                    putString("ques","Image insights")
+
                 }
-                findNavController().navigate(R.id.viewFragment, bundle)
+                findNavController().navigate(R.id.resultFragment,bundle)
             }
         }
     }

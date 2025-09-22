@@ -163,9 +163,10 @@ class CameraFragment : Fragment(), TextToSpeech.OnInitListener {
                 val bundle = Bundle().apply {
                     putParcelable("imageUri", uri)
                     putString("title", formatText(result))
+                    putString("ques", "Image insights")
                 }
 
-                findNavController().navigate(R.id.viewFragment, bundle)
+                findNavController().navigate(R.id.resultFragment, bundle)
             }
         }
     }
