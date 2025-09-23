@@ -7,6 +7,23 @@
     android:background="@color/white"
     tools:context=".UI.">
 
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.2"
+        android:id="@+id/guideH20"
+        android:orientation="horizontal"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintGuide_percent="0.8"
+        android:id="@+id/guideH70"
+        android:orientation="horizontal"
+        />
+
+
     <!-- Status Bar Gradient Overlay -->
     <View
         android:layout_width="match_parent"
@@ -31,7 +48,7 @@
         android:gravity="center"
         android:orientation="vertical"
         android:paddingHorizontal="24dp"
-        android:paddingVertical="20dp"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -54,13 +71,12 @@
         android:layout_marginStart="12dp"
         android:layout_marginEnd="12dp"
         android:animateLayoutChanges="true"
-        android:paddingTop="24dp"
         android:paddingBottom="24dp"
         app:columnCount="2"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_layout"
+        app:layout_constraintBottom_toTopOf="@+id/guideH70"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/header_card"
+        app:layout_constraintTop_toTopOf="@+id/guideH20"
         app:layout_constraintVertical_bias="0.3"
         app:rowCount="2">
 
@@ -75,14 +91,14 @@
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/mimi_pink"
+            app:cardBackgroundColor="#ffb3ba"
             app:cardCornerRadius="28dp"
             app:cardElevation="8dp"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1"
             app:rippleColor="@color/mimi_pink"
             app:strokeColor="@color/mimi_pink"
-            app:strokeWidth="2dp">
+            app:strokeWidth="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -94,9 +110,10 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="@dimen/_64sdp"
                     android:layout_height="@dimen/_64sdp"
-                    app:cardBackgroundColor="@color/primary"
-                    app:cardCornerRadius="32dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="@dimen/_34sdp"
                     app:cardElevation="8dp"
+                    app:strokeWidth="0dp"
                     app:strokeColor="@color/black">
 
                     <ImageView
@@ -104,7 +121,7 @@
                         android:layout_height="@dimen/_32sdp"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_camera"
-                        app:tint="@color/white" />
+                        app:tint="@color/black" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <TextView
@@ -131,14 +148,14 @@
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/coloro"
+            app:cardBackgroundColor="@color/jordy_blue"
             app:cardCornerRadius="28dp"
             app:cardElevation="8dp"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1"
             app:rippleColor="@color/coloro"
             app:strokeColor="@color/coloro"
-            app:strokeWidth="2dp">
+            app:strokeWidth="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -150,9 +167,10 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="@dimen/_64sdp"
                     android:layout_height="@dimen/_64sdp"
-                    app:cardBackgroundColor="@color/primary"
-                    app:cardCornerRadius="32dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="@dimen/_32sdp"
                     app:cardElevation="8dp"
+                    app:strokeWidth="0dp"
                     app:strokeColor="@color/black">
 
                     <ImageView
@@ -160,7 +178,7 @@
                         android:layout_height="@dimen/_32sdp"
                         android:layout_gravity="center"
                         android:src="@drawable/qr_image"
-                        app:tint="@color/white" />
+                        app:tint="@color/black" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <TextView
@@ -206,9 +224,10 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="@dimen/_64sdp"
                     android:layout_height="@dimen/_64sdp"
-                    app:cardBackgroundColor="@color/primary"
-                    app:cardCornerRadius="32dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="@dimen/_32sdp"
                     app:cardElevation="8dp"
+                    app:strokeWidth="0dp"
                     app:strokeColor="@color/black">
 
                     <ImageView
@@ -216,7 +235,7 @@
                         android:layout_height="@dimen/_32sdp"
                         android:layout_gravity="center"
                         android:src="@drawable/pick_file"
-                        app:tint="@color/white" />
+                        app:tint="@color/black" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <TextView
@@ -243,14 +262,14 @@
             android:clickable="true"
             android:focusable="true"
             android:foreground="?attr/selectableItemBackground"
-            app:cardBackgroundColor="@color/jordy_blue"
+            app:cardBackgroundColor="#baffc9"
             app:cardCornerRadius="28dp"
             app:cardElevation="8dp"
             app:layout_columnWeight="1"
             app:layout_rowWeight="1"
             app:rippleColor="@color/jordy_blue"
             app:strokeColor="@color/jordy_blue"
-            app:strokeWidth="2dp">
+            app:strokeWidth="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -262,9 +281,10 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="@dimen/_64sdp"
                     android:layout_height="@dimen/_64sdp"
-                    app:cardBackgroundColor="@color/primary"
-                    app:cardCornerRadius="32dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="@dimen/_32sdp"
                     app:cardElevation="8dp"
+                    app:strokeWidth="0dp"
                     app:strokeColor="@color/black">
 
                     <ImageView
@@ -272,7 +292,7 @@
                         android:layout_height="@dimen/_32sdp"
                         android:layout_gravity="center"
                         android:src="@drawable/image_generation"
-                        app:tint="@color/white" />
+                        app:tint="@color/black" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <TextView
@@ -330,7 +350,6 @@
                     android:imeOptions="actionSend"
                     android:inputType="textMultiLine|textCapSentences"
                     android:maxLines="4"
-                    android:minHeight="@dimen/_48sdp"
                     android:paddingHorizontal="16dp"
                     android:textSize="@dimen/_14ssp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -338,9 +357,9 @@
             <!-- Enhanced Send Button -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/send_btn"
-                android:layout_width="@dimen/_40sdp"
-                android:layout_height="@dimen/_40sdp"
-                android:layout_margin="12dp"
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:layout_margin="8dp"
                 app:cardBackgroundColor="@color/primary"
                 app:cardCornerRadius="32dp"
                 app:strokeColor="@color/primary"

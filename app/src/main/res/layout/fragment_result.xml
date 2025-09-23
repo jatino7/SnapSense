@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="#E0DED9"
     android:fitsSystemWindows="true"
+    android:nestedScrollingEnabled="false"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".UI.ResultFragment">
 

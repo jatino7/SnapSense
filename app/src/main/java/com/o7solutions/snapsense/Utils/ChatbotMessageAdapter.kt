@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.o7solutions.snapsense.databinding.ChatbotChatItemBinding
 
 class ChatbotMessageAdapter(
-    private var messageList: List<MessageModel>
+    private var messageList: List<MessageModel>,val onClickItem: onClick
 ) : RecyclerView.Adapter<ChatbotMessageAdapter.MessageViewHolder>() {
 
 
@@ -47,13 +47,22 @@ class ChatbotMessageAdapter(
                             (itemView.parent as? RecyclerView)?.post {
                                 (itemView.parent as RecyclerView).smoothScrollToPosition(adapterPosition)
                             }
+
+                            onClickItem.move()
                             handler.postDelayed(this, 5) // 40ms per character
                         }
                     }
+
                 }
                 handler.post(runnable)
 //                binding.leftChatTextView.text = message.message
             }
         }
+    }
+
+    interface onClick {
+
+        fun move()
+
     }
 }

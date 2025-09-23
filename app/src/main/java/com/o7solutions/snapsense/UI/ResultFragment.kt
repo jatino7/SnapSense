@@ -40,7 +40,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [ResultFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ResultFragment : Fragment() {
+class ResultFragment : Fragment(), ChatbotMessageAdapter.onClick {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -48,6 +48,7 @@ class ResultFragment : Fragment() {
     private val messageList = mutableListOf<MessageModel>()
     private lateinit var messageAdapter: ChatbotMessageAdapter
     var apiKey = ""
+    var isScrolling = false
     private lateinit var binding: FragmentResultBinding
 
     // Permission launcher for RECORD_AUDIO
@@ -56,7 +57,8 @@ class ResultFragment : Fragment() {
             if (isGranted) {
                 startSpeechToText()
             } else {
-                Toast.makeText(requireContext(), "Microphone permission denied", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Microphone permission denied", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
 
@@ -65,7 +67,8 @@ class ResultFragment : Fragment() {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == android.app.Activity.RESULT_OK) {
                 val data = result.data
-                val recognizedText = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.get(0)
+                val recognizedText =
+                    data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.get(0)
                 recognizedText?.let {
                     binding.messageEt.setText(it) // Fill EditText
                     binding.messageEt.setSelection(it.length) // Move cursor to end
@@ -83,10 +86,11 @@ class ResultFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        requireActivity().window.setSoftInputMode(
-            WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
-        )
+//        requireActivity().window.setSoftInputMode(
+////            WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
+//        )
     }
+
     override fun onPause() {
         super.onPause()
         requireActivity().window.setSoftInputMode(
@@ -107,6 +111,11 @@ class ResultFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        binding.messageEt.requestFocus()
+//        val imm =
+//            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//        imm.showSoftInput(binding.messageEt, InputMethodManager.SHOW_IMPLICIT)
 
 
 
@@ -136,10 +145,12 @@ class ResultFragment : Fragment() {
         }
 
         binding.btnScrollUp.setOnClickListener {
+            isScrolling = true
             binding.scrollView.smoothScrollTo(0, 0) // x = 0, y = 0 → top
         }
 
         binding.btnScrollDown.setOnClickListener {
+            isScrolling = true
             binding.scrollView.post {
                 binding.scrollView.fullScroll(View.FOCUS_DOWN) // scrolls to bottom
             }
@@ -169,7 +180,7 @@ class ResultFragment : Fragment() {
 
 //        Initialization of all components
         apiKey = AppFunctions.readApiKey(requireActivity()).toString()
-        messageAdapter = ChatbotMessageAdapter(messageList)
+        messageAdapter = ChatbotMessageAdapter(messageList, this)
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = messageAdapter
 
@@ -192,23 +203,25 @@ class ResultFragment : Fragment() {
             addResponse(title)
         }
 //        Adding question
-        val editText = binding.messageEt
-
-        // Request focus and show keyboard
-        editText.requestFocus()
-
-        // Show keyboard with a slight delay
-        editText.postDelayed({
-            val imm =
-                requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
-        }, 0)
+//        val editText = binding.messageEt
+//
+//        // Request focus and show keyboard
+//        editText.requestFocus()
+//
+//        // Show keyboard with a slight delay
+//        editText.postDelayed({
+//            val imm =
+//                requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//            imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
+//        }, 0)
 
         binding.sendBtn.setOnClickListener {
+
+            isScrolling = false
             val question = binding.messageEt.text.toString().trim()
             if (question.isNotEmpty()) {
 
-                binding.loader.visibility = View.VISIBLE
+//                binding.loader.visibility = View.VISIBLE
                 binding.messageEt.text?.clear()
 
                 addToChat(question, MessageModel.SENT_BY_ME)
@@ -236,7 +249,7 @@ class ResultFragment : Fragment() {
     }
 
     private fun addResponse(response: String?) {
-        Log.d("Response",response.toString())
+        Log.d("Response", response.toString())
         if (messageList.isNotEmpty() && messageList.last().message == "Typing...") {
             val removePosition = messageList.size - 1
             messageList.removeAt(removePosition)
@@ -247,9 +260,14 @@ class ResultFragment : Fragment() {
             messageAdapter.notifyItemInserted(messageList.size - 1)
         }
         binding.recyclerView.scrollToPosition(messageAdapter.itemCount - 1)
-        binding.scrollView.post {
-            binding.scrollView.fullScroll(View.FOCUS_DOWN) // scrolls to bottom
-        }
+//        binding.scrollView.post {
+//            binding.scrollView.fullScroll(View.FOCUS_DOWN) // scrolls to bottom
+//        }
+
+        val imm =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(requireView().windowToken, 0)
+
     }
 
 
@@ -279,7 +297,11 @@ class ResultFragment : Fragment() {
 
     private fun analyzeWithGemini(file: File, prompt: String) {
         val gemini = GeminiApi(AppFunctions.readApiKey(requireActivity()).toString())
-        gemini.analyzeImage(file, prompt) { result ->
+        gemini.analyzeImage(
+            file, "You are working as AI agent and your task is to give" +
+                    "info about the image according to user query if user query is about more details " +
+                    "you have to tell all object present in image here is user query=>$prompt"
+        ) { result ->
             requireActivity().runOnUiThread {
                 Log.d("ApiResult", result)
                 binding.loader.visibility = View.GONE
@@ -292,12 +314,16 @@ class ResultFragment : Fragment() {
 
     private fun startSpeechToText() {
         if (!SpeechRecognizer.isRecognitionAvailable(requireContext())) {
-            Toast.makeText(requireContext(), "Speech recognition not available", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Speech recognition not available", Toast.LENGTH_SHORT)
+                .show()
             return
         }
 
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
-            putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            putExtra(
+                RecognizerIntent.EXTRA_LANGUAGE_MODEL,
+                RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
+            )
             putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
             putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak now...")
         }
@@ -308,6 +334,18 @@ class ResultFragment : Fragment() {
     fun formatText(input: String): String {
         return input.replace(Regex("\\*\\*"), " ")
             .replace(Regex("\\*"), "•")
+    }
+
+    override fun move() {
+
+        if (!isScrolling) {
+
+
+            binding.scrollView.post {
+                binding.scrollView.fullScroll(View.FOCUS_DOWN) // scrolls to bottom
+            }
+
+        }
     }
 
     companion object {

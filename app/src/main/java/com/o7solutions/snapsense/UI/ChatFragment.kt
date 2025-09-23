@@ -24,9 +24,9 @@ import android.view.inputmethod.InputMethodManager
 import com.o7solutions.snapsense.Utils.AppFunctions
 
 
-class ChatFragment : Fragment() {
+class ChatFragment : Fragment(), ChatbotMessageAdapter.onClick {
 
-    var  apiKey = ""
+    var apiKey = ""
     private var _binding: FragmentChatBinding? = null
     private val binding get() = _binding!!
 
@@ -55,7 +55,7 @@ class ChatFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         apiKey = AppFunctions.readApiKey(requireActivity()).toString()
-        messageAdapter = ChatbotMessageAdapter(messageList)
+        messageAdapter = ChatbotMessageAdapter(messageList, this)
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.adapter = messageAdapter
 
@@ -75,7 +75,7 @@ class ChatFragment : Fragment() {
             val question = binding.messageEt.text.toString().trim()
             if (question.isNotEmpty()) {
 
-                binding.loader.visibility = View.VISIBLE
+//                binding.loader.visibility = View.VISIBLE
                 binding.messageEt.text?.clear()
 
                 addToChat(question, MessageModel.SENT_BY_ME)
@@ -108,6 +108,7 @@ class ChatFragment : Fragment() {
             messageAdapter.notifyItemInserted(messageList.size - 1)
         }
         binding.recyclerView.scrollToPosition(messageAdapter.itemCount - 1)
+
     }
 
     private fun removeDoubleAsterisks(input: String?): String {
@@ -198,5 +199,10 @@ $prompt
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun move() {
+        binding.recyclerView.scrollToPosition(messageAdapter.itemCount - 1)
+
     }
 }
