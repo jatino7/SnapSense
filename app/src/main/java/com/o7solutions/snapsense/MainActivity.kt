@@ -2,6 +2,7 @@ package com.o7solutions.snapsense
 
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.WindowManager
 import android.widget.ImageView
@@ -63,6 +64,10 @@ class MainActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val key = getApiKey()
             AppFunctions.saveApiKey(this@MainActivity, key.toString())
+
+            val accessKey = getUnsplashKey()
+            AppFunctions.saveUnsplashKey(this@MainActivity,accessKey.toString())
+            Log.d("Unsplash key",accessKey.toString())
         }
     }
 
@@ -160,6 +165,22 @@ class MainActivity : AppCompatActivity() {
         }
 
         dialog.show()
+    }
+
+    suspend fun getUnsplashKey(): String? {
+
+        val db = FirebaseFirestore.getInstance()
+        return try {
+            val snapshot = db.collection("keys")
+                .document("accessKey")
+                .get()
+                .await()
+
+            snapshot.getString(AppConstants.unsplashKey)  // returns the value or null
+        } catch (e: Exception) {
+            e.printStackTrace()
+            null
+        }
     }
 
     suspend fun getApiKey(): String? {

@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("kotlin-kapt")
     id("com.google.gms.google-services")
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.21" // ✅ add version
 }
 
 android {
@@ -38,6 +39,11 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        compose = true   // ✅ enable Compose
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.8" // ✅ match Kotlin 1.9.24
     }
 }
 
@@ -99,6 +105,19 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:34.3.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-firestore-ktx:25.1.0")
+
+//    retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.11.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.11.0")
+    implementation("io.coil-kt:coil:2.7.0") // f
+
+
+//    compose
+    implementation(platform("androidx.compose:compose-bom:2024.05.00"))
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    debugImplementation("androidx.compose.ui:ui-tooling")
 
 
 }

@@ -205,4 +205,7 @@ $prompt
         binding.recyclerView.scrollToPosition(messageAdapter.itemCount - 1)
 
     }
+
+    override fun end() {
+    }
 }

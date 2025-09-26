@@ -16,12 +16,18 @@ import android.view.WindowManager
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.o7solutions.snapsense.Unsplash.UnsplashPhoto
 import com.o7solutions.snapsense.Utils.AppFunctions
 import com.o7solutions.snapsense.Utils.ChatbotMessageAdapter
 import com.o7solutions.snapsense.Utils.GeminiApi
 import com.o7solutions.snapsense.Utils.MessageModel
+import com.o7solutions.snapsense.Utils.WebViewBottomSheet
+import com.o7solutions.snapsense.compose.BottomSheet
 import com.o7solutions.snapsense.databinding.FragmentResultBinding
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -44,12 +50,19 @@ class ResultFragment : Fragment(), ChatbotMessageAdapter.onClick {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    private val showSheetState = mutableStateOf(false)
+    private var webViewBottomSheet: WebViewBottomSheet? = null
+    var sheetShown = false
 
+
+    var imagesList: List<UnsplashPhoto> = emptyList()
+    var keyword = ""
     private val messageList = mutableListOf<MessageModel>()
     private lateinit var messageAdapter: ChatbotMessageAdapter
     var apiKey = ""
     var isScrolling = false
     private lateinit var binding: FragmentResultBinding
+    var title = ""
 
     // Permission launcher for RECORD_AUDIO
     private val permissionLauncher =
@@ -116,7 +129,6 @@ class ResultFragment : Fragment(), ChatbotMessageAdapter.onClick {
 //        val imm =
 //            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 //        imm.showSoftInput(binding.messageEt, InputMethodManager.SHOW_IMPLICIT)
-
 
 
         binding.scrollView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
@@ -188,8 +200,11 @@ class ResultFragment : Fragment(), ChatbotMessageAdapter.onClick {
 //receiving components
 
         val uri = arguments?.getParcelable<Uri>("imageUri")
-        val title = arguments?.getString("title")
+        title = arguments?.getString("title").toString()
         val ques = arguments?.getString("ques")
+        keyword = arguments?.getString("keyword").toString()
+
+
 
         if (uri != null) {
             binding.imageFile.setImageURI(uri)
@@ -200,7 +215,44 @@ class ResultFragment : Fragment(), ChatbotMessageAdapter.onClick {
 
 
         if (title != null) {
-            addResponse(title)
+//            getImages()
+            addResponse(title, imagesList)
+        }
+
+
+        if (keyword != null) {
+//            val url = "https://www.google.com/search?tbm=shop&q=$keyword"
+//            webViewBottomSheet = WebViewBottomSheet.newInstance(url)
+//            webViewBottomSheet?.show(parentFragmentManager, "WebViewBottomSheet")
+
+
+        }
+//        binding.composeView?.setContent {
+////             Use the state objects directly inside composition
+//            val showSheet = showSheetState
+//
+//            if (showSheet.value) {
+//                BottomSheet(
+//                    onDismiss = { showSheet.value = false },
+//                    url = "https://www.google.com/search?tbm=shop&q=$keyword"
+//                )
+//            }
+//        }
+
+
+        binding.fab?.setOnClickListener {
+            val url = "https://www.bing.com/shop?q=$keyword"
+            showWebViewSheet(url)
+
+        }
+
+
+
+        if (keyword.isNotEmpty()) {
+
+
+            print("Keyword is not empty")
+            showSheetState.value = true
         }
 //        Adding question
 //        val editText = binding.messageEt
@@ -214,6 +266,7 @@ class ResultFragment : Fragment(), ChatbotMessageAdapter.onClick {
 //                requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
 //            imm.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT)
 //        }, 0)
+
 
         binding.sendBtn.setOnClickListener {
 
@@ -232,6 +285,8 @@ class ResultFragment : Fragment(), ChatbotMessageAdapter.onClick {
 
             }
         }
+
+
     }
 
 
@@ -248,7 +303,12 @@ class ResultFragment : Fragment(), ChatbotMessageAdapter.onClick {
         binding.recyclerView.smoothScrollToPosition(messageAdapter.itemCount - 1)
     }
 
-    private fun addResponse(response: String?) {
+    private fun addResponse(response: String?, imagesList: List<UnsplashPhoto>?) {
+        var fileList: List<UnsplashPhoto> = if (imagesList?.isNotEmpty() == true) {
+            imagesList
+        } else {
+            emptyList()
+        }
         Log.d("Response", response.toString())
         if (messageList.isNotEmpty() && messageList.last().message == "Typing...") {
             val removePosition = messageList.size - 1
@@ -256,13 +316,17 @@ class ResultFragment : Fragment(), ChatbotMessageAdapter.onClick {
             messageAdapter.notifyItemRemoved(removePosition)
         }
         response?.takeIf { it.isNotBlank() }?.let {
-            messageList.add(MessageModel(it, MessageModel.SENT_BY_BOT))
+            messageList.add(MessageModel(it, MessageModel.SENT_BY_BOT, fileList))
             messageAdapter.notifyItemInserted(messageList.size - 1)
         }
         binding.recyclerView.scrollToPosition(messageAdapter.itemCount - 1)
 //        binding.scrollView.post {
 //            binding.scrollView.fullScroll(View.FOCUS_DOWN) // scrolls to bottom
 //        }
+
+        if (!sheetShown) {
+            sheetShown = false
+        }
 
         val imm =
             requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -289,7 +353,7 @@ class ResultFragment : Fragment(), ChatbotMessageAdapter.onClick {
             file
         } catch (e: Exception) {
 
-            addResponse("Unable to process your query")
+            addResponse("Unable to process your query", emptyList())
             e.printStackTrace()
             null
         }
@@ -305,7 +369,7 @@ class ResultFragment : Fragment(), ChatbotMessageAdapter.onClick {
             requireActivity().runOnUiThread {
                 Log.d("ApiResult", result)
                 binding.loader.visibility = View.GONE
-                addResponse(formatText(result))
+                addResponse(formatText(result), emptyList())
             }
         }
 
@@ -348,6 +412,23 @@ class ResultFragment : Fragment(), ChatbotMessageAdapter.onClick {
         }
     }
 
+    override fun end() {
+        val url = "https://www.bing.com/shop?q=$keyword"
+        showWebViewSheet(url)
+    }
+
+    private fun showWebViewSheet(url: String) {
+        val existing = parentFragmentManager.findFragmentByTag("WebViewBottomSheet")
+        if (existing == null) {
+            webViewBottomSheet = WebViewBottomSheet.newInstance(url)
+            webViewBottomSheet?.show(parentFragmentManager, "WebViewBottomSheet")
+        } else {
+            // Reuse existing one
+            (existing as? WebViewBottomSheet)?.dialog?.show()
+        }
+    }
+
+
     companion object {
         /**
          * Use this factory method to create a new instance of
@@ -366,5 +447,16 @@ class ResultFragment : Fragment(), ChatbotMessageAdapter.onClick {
                     putString(ARG_PARAM2, param2)
                 }
             }
+    }
+
+    fun getImages() {
+
+        lifecycleScope.launch {
+            imagesList = AppFunctions.searchPhotos(query = keyword.toString())
+            Log.d("Images List", imagesList.toString())
+
+        }
+
+
     }
 }

@@ -5,7 +5,9 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.o7solutions.snapsense.Unsplash.PhotoAdapter
 import com.o7solutions.snapsense.databinding.ChatbotChatItemBinding
 
 class ChatbotMessageAdapter(
@@ -50,11 +52,28 @@ class ChatbotMessageAdapter(
 
                             onClickItem.move()
                             handler.postDelayed(this, 5) // 40ms per character
+                        } else {
+                            onClickItem.end()
+
                         }
                     }
 
+
                 }
                 handler.post(runnable)
+
+
+
+                if (message.images.isNotEmpty()) {
+
+                    print("ImagesList in ChatbotMessageAdapter ${message.images}")
+                    binding.recyclerView.visibility = View.VISIBLE
+                    binding.recyclerView.layoutManager =
+                        LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
+                    binding.recyclerView.adapter = PhotoAdapter(message.images)
+                } else {
+                    binding.recyclerView.visibility = View.GONE
+                }
 //                binding.leftChatTextView.text = message.message
             }
         }
@@ -63,6 +82,8 @@ class ChatbotMessageAdapter(
     interface onClick {
 
         fun move()
+
+        fun end()
 
     }
 }

@@ -16,7 +16,9 @@ Focus on delivering detailed, insightful, and actionable information for both th
 
     val prompt = """
 You are working as a personal assistant. Analyze the image and give me detailed information about image.Detect the product in image than i want you to give me proper information of the product like company,
- model details. You have to give company details anyway. if not possible suggest me other similar companies. Give me condition details of object, suggestions to improve the condition and also give an random fact or funny fact about the analysis like any famous quote by some famous person
+ model details. You have to give company details anyway. if not possible suggest me other similar companies. Give me condition details of object, suggestions to improve the condition and also give an random
+  fact or funny fact about the analysis like any famous quote by some famous person, 
+  suggest when it is going to be outdated.
  
 """.trimIndent()
 
@@ -24,6 +26,8 @@ You are working as a personal assistant. Analyze the image and give me detailed 
     var KEY_API = "apiKey"
     var PREFS_NAME = "App_prefs"
     var keyCol = "keys"
+
+    var unsplashKey = "accessKey"
 
 
 }

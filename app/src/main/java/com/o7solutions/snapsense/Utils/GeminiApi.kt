@@ -82,6 +82,58 @@ class GeminiApi(private val apiKey: String) {
         })
     }
 
+    fun analyzeImageGetKeyWord(imageFile: File, prompt: String, callback: (String) -> Unit) {
+        val imageBase64 = encodeImageToBase64(imageFile)
+
+        val requestBodyJson = JSONObject().apply {
+            put("contents", JSONArray().apply {
+                put(JSONObject().apply {
+                    put("parts", JSONArray().apply {
+                        put(JSONObject().put("text", prompt))
+                        put(JSONObject().apply {
+                            put("inline_data", JSONObject().apply {
+                                put("mime_type", "image/jpeg")
+                                put("data", imageBase64)
+                            })
+                        })
+                    })
+                })
+            })
+        }
+
+        val body = RequestBody.create(
+            "application/json".toMediaTypeOrNull(),
+            requestBodyJson.toString()
+        )
+
+        val request = Request.Builder()
+            .url("$baseUrl/gemini-2.0-flash:generateContent?key=$apiKey")
+            .post(body)
+            .build()
+
+        client.newCall(request).enqueue(object : Callback {
+            override fun onFailure(call: Call, e: IOException) {
+                callback("Error: ${e.message}")
+            }
+
+            override fun onResponse(call: Call, response: Response) {
+                response.use {
+                    val responseBody = it.body?.string()
+                    val json = JSONObject(responseBody ?: "{}")
+                    val output = json.optJSONArray("candidates")
+                        ?.optJSONObject(0)
+                        ?.optJSONObject("content")
+                        ?.optJSONArray("parts")
+                        ?.optJSONObject(0)
+                        ?.optString("text") ?: "No response"
+
+                    callback(output)
+                }
+            }
+        })
+    }
+
+
     fun analyzeText(prompt: String, callback: (String) -> Unit) {
 
         val requestBodyJson = JSONObject().apply {
@@ -126,6 +178,8 @@ class GeminiApi(private val apiKey: String) {
             }
         })
     }
+
+
 
     fun generateImageFromPrompt(prompt: String, callback: (ByteArray?) -> Unit) {
         // Prepare JSON body

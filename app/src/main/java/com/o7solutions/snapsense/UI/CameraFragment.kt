@@ -52,6 +52,7 @@ class CameraFragment : Fragment(), TextToSpeech.OnInitListener {
     private lateinit var imageCapture: ImageCapture
     private lateinit var binding: FragmentCameraBinding
     private lateinit var imageFile: File
+    var keyword = ""
 
     // modern permission launcher
     private val requestPermissionLauncher =
@@ -153,20 +154,32 @@ class CameraFragment : Fragment(), TextToSpeech.OnInitListener {
     }
 
     private fun analyzeWithGemini(file: File) {
+        binding.loader.visibility = View.VISIBLE
+
         val gemini = GeminiApi(AppFunctions.readApiKey(requireActivity()).toString())
-        gemini.analyzeImage(file, AppConstants.prompt) { result ->
-            requireActivity().runOnUiThread {
-                Log.d("ApiResult", result)
-                binding.loader.visibility = View.GONE
+        gemini.analyzeImageGetKeyWord(
+            file, "Analyze image and give me product name in single word with its" +
+                    " company or if you are not able to detect the product company than suggest other company" +
+                    " i want only single word answer, For example if you see main product in image as Iphone than" +
+                    " give response iphone"+"You have to focus on main utensil or product in the image" +
+                    ""
+        ) { result ->
 
-                val uri = Uri.fromFile(file)
-                val bundle = Bundle().apply {
-                    putParcelable("imageUri", uri)
-                    putString("title", formatText(result))
-                    putString("ques", "Image insights")
+            keyword = result
+            gemini.analyzeImage(file, AppConstants.prompt) { result ->
+                requireActivity().runOnUiThread {
+                    Log.d("ApiResult", result)
+
+                    val uri = Uri.fromFile(file)
+                    val bundle = Bundle().apply {
+                        putParcelable("imageUri", uri)
+                        putString("title", formatText(result))
+                        putString("ques", "Image insights")
+                        putString("keyword",keyword)
+                    }
+
+                    findNavController().navigate(R.id.resultFragment, bundle)
                 }
-
-                findNavController().navigate(R.id.resultFragment, bundle)
             }
         }
     }

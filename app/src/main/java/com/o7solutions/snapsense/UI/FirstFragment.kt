@@ -26,6 +26,7 @@ import java.io.File
 class FirstFragment : Fragment() {
 
     private lateinit var binding: FragmentFirstBinding
+    var keyword = ""
 
     // Launcher to pick image
     private val pickImageLauncher = registerForActivityResult(
@@ -109,22 +110,35 @@ class FirstFragment : Fragment() {
     }
 
     private fun analyzeWithGemini(file: File) {
+        binding.loader.visibility = View.GONE
+
         val gemini = GeminiApi(AppFunctions.readApiKey(requireActivity()).toString())
-        gemini.analyzeImage(file, AppConstants.prompt) { result ->
-            requireActivity().runOnUiThread {
-                Log.d("ApiResult", result)
-                binding.loader.visibility = View.GONE
+        gemini.analyzeImageGetKeyWord(file,"Analyze image and give me product name in single word with its" +
+                " company or if you are not able to detect the product company than suggest other company" +
+                " i want only single word answer, For example if you see main product in image as Iphone than" +
+                " give response iphone") {  result->
 
-                val uri = Uri.fromFile(file)
+            keyword = result
+            gemini.analyzeImage(file, AppConstants.prompt) { result ->
+                requireActivity().runOnUiThread {
+                    Log.d("ApiResult", result)
 
-                val bundle = Bundle()
-                bundle.putParcelable("imageUri", uri)
-                bundle.putString("title", formatText(result))
-                bundle.putString("ques","Image insights")
-                findNavController().navigate(R.id.resultFragment,bundle)
+                    val uri = Uri.fromFile(file)
+
+                    val bundle = Bundle()
+                    bundle.putParcelable("imageUri", uri)
+                    bundle.putString("title", formatText(result))
+                    bundle.putString("ques","Image insights")
+                    bundle.putString("keyword",keyword)
+                    findNavController().navigate(R.id.resultFragment,bundle)
 //                showResultBottomSheet(formatText(result))
+                }
             }
+
         }
+
+
+
     }
 
     private fun showResultBottomSheet(response: String) {
