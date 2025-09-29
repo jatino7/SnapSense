@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:padding="20dp"
+    android:gravity="center"
+    android:background="@android:color/white">
+
+    <!-- Rounded card container -->
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="8dp"
+        android:layout_margin="10dp"
+        android:backgroundTint="@android:color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp"
+            android:gravity="center">
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/tvDialogTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dialog Title"
+                android:visibility="gone"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                android:gravity="center"
+                android:paddingBottom="8dp" />
+
+            <!-- Message -->
+            <TextView
+                android:id="@+id/tvDialogMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="This is a custom dialog message"
+                android:textSize="16sp"
+                android:textColor="@color/black"
+                android:paddingBottom="20dp" />
+
+            <!-- OK Button -->
+            <Button
+                android:id="@+id/btnOk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="OK"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                 />
+
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

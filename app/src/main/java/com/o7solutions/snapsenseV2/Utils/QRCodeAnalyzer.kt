@@ -1,0 +1,46 @@
+package com.o7solutions.snapsenseV2.Utils
+
+import android.util.Log
+import androidx.annotation.OptIn
+import androidx.camera.core.ExperimentalGetImage
+import androidx.camera.core.ImageAnalysis
+import androidx.camera.core.ImageProxy
+import com.google.mlkit.vision.barcode.BarcodeScannerOptions
+import com.google.mlkit.vision.barcode.BarcodeScanning
+import com.google.mlkit.vision.barcode.common.Barcode
+import com.google.mlkit.vision.common.InputImage
+
+class QRCodeAnalyzer : ImageAnalysis.Analyzer {
+
+    private val scanner = BarcodeScanning.getClient(
+        BarcodeScannerOptions.Builder()
+            .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
+            .build()
+    )
+
+    @OptIn(ExperimentalGetImage::class)
+    override fun analyze(imageProxy: ImageProxy) {
+        val mediaImage = imageProxy.image
+        if (mediaImage != null) {
+            val image = InputImage.fromMediaImage(mediaImage, imageProxy.imageInfo.rotationDegrees)
+            scanner.process(image)
+                .addOnSuccessListener { barcodes ->
+                    for (barcode in barcodes) {
+                        val rawValue = barcode.rawValue
+                        Log.d("QRScanner", "QR Code detected: $rawValue")
+                        // Handle QR code here
+                    }
+                }
+                .addOnFailureListener {
+                    Log.e("QRScanner", "QR Scan failed", it)
+                }
+                .addOnCompleteListener {
+                    imageProxy.close()
+                }
+        } else {
+            imageProxy.close()
+        }
+    }
+
+
+}

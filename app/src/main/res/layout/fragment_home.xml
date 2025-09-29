@@ -16,12 +16,12 @@
         />
 
     <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideH70"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintGuide_percent="0.8"
-        android:id="@+id/guideH70"
         android:orientation="horizontal"
-        />
+        app:layout_constraintGuide_percent="0.75"
+         />
 
 
     <!-- Status Bar Gradient Overlay -->
@@ -76,9 +76,9 @@
         app:layout_constraintBottom_toTopOf="@+id/guideH70"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideH20"
+        app:layout_constraintTop_toBottomOf="@+id/guideH20"
         app:layout_constraintVertical_bias="0.3"
-        app:rowCount="2">
+        app:rowCount="3">
 
         <!-- Enhanced Camera Card -->
         <com.google.android.material.card.MaterialCardView
@@ -308,7 +308,90 @@
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
+
+
     </androidx.gridlayout.widget.GridLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/music_suggestion"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/guideH70"
+        android:layout_marginStart="@dimen/_20sdp"
+        android:layout_marginEnd="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
+        app:cardCornerRadius="28dp"
+        app:strokeWidth="0dp"
+        app:cardBackgroundColor="#31343A"
+        android:background="@drawable/golden_gradient"
+        app:layout_constraintBottom_toTopOf="@id/bottom_layout"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"
+                app:cardCornerRadius="@dimen/_30sdp"
+                android:layout_marginStart="@dimen/_6sdp"
+                android:layout_marginEnd="@dimen/_4sdp"
+                >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/music_png"
+                android:scaleType="fitXY"
+                />
+
+
+            </com.google.android.material.card.MaterialCardView>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1"
+                android:layout_marginEnd="6dp"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Vibe Selector"
+                    android:textSize="@dimen/_20ssp"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/white"
+                    android:text="Your vibe, your soundtrack—tap to discover."
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <Button
+        android:id="@+id/faceBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/bottom_layout"
+        android:text="Visit"
+        />
 
     <!-- Enhanced Bottom Input Section -->
     <com.google.android.material.card.MaterialCardView

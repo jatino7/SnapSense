@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.o7solutions.snapsense"
+    namespace = "com.o7solutions.snapsenseV2"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.o7solutions.snapsense"
+        applicationId = "com.o7solutions.snapsenseV2"
         minSdk = 26
         targetSdk = 35
         versionCode = 2
